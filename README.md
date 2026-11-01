@@ -23,7 +23,8 @@ Ghi chú tự học về quy trình phát triển phần mềm (SDLC), thiết k
 | --- | --- |
 | [speckit-vs-sdlc.md](speckit-vs-sdlc.md) | Ánh xạ lệnh Spec Kit vào SDLC; phase nào bị thu gọn hoặc bỏ qua, vì sao, và cách bù; 10 điểm cần lưu ý |
 | [speckit-big-picture.md](speckit-big-picture.md) | Mô hình tầng tài liệu (sản phẩm, hệ thống, điều phối, tính năng) để giữ cái nhìn tổng thể và phân việc cho nhiều team khi Spec Kit làm theo từng tính năng |
-| [speckit-docs-skeleton/](speckit-docs-skeleton/) | Bộ khung dùng ngay: PRD, feature map, NFR, glossary, HLD, domain model, API catalog, ADR, team map, release plan, dependencies, constitution, phần bổ sung template, lệnh `/project.review` và `/project.plan` |
+| [speckit-backlog.md](speckit-backlog.md) | Chia việc cho các team từ HLD và tạo backlog trên GitHub Issues: lệnh `/project.breakdown`, `/project.backlog`, script `backlog-sync.sh` |
+| [speckit-docs-skeleton/](speckit-docs-skeleton/) | Bộ khung dùng ngay: PRD, feature map, NFR, glossary, HLD, domain model, API catalog, ADR, team map, release plan, dependencies, constitution, phần bổ sung template, lệnh `/project.breakdown`, `/project.backlog`, `/project.review`, `/project.plan`, script đồng bộ backlog |
 
 ### Runbook
 
@@ -35,7 +36,7 @@ Ghi chú tự học về quy trình phát triển phần mềm (SDLC), thiết k
 
 1. [sdlc.md](sdlc.md): nắm các phase và input/output.
 2. [hld-template.md](hld-template.md) → [monitoring-design-hld.md](monitoring-design-hld.md): phase Design viết ra tài liệu gì.
-3. [speckit-vs-sdlc.md](speckit-vs-sdlc.md) → [speckit-big-picture.md](speckit-big-picture.md): AI thay đổi SDLC thế nào.
+3. [speckit-vs-sdlc.md](speckit-vs-sdlc.md) → [speckit-big-picture.md](speckit-big-picture.md) → [speckit-backlog.md](speckit-backlog.md): AI thay đổi SDLC thế nào, giữ cái nhìn tổng thể và chia việc cho các team.
 4. [speckit-docs-skeleton/](speckit-docs-skeleton/): áp dụng vào dự án thật.
 
 ## Quy ước

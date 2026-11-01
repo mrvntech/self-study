@@ -135,7 +135,7 @@ Tầng 3 – Tính năng     specs/xxx/ (spec, plan, tasks) – Spec Kit
    - `release-plan.md`: mốc release, mốc tích hợp, việc thủ công, sơ đồ Gantt.
    - `dependencies.md`: bảng Needs/Provides giữa các team (Planned → Contract approved → Ready → Done), cảnh báo.
 5. **Lệnh `/project.plan`:** đọc mọi `tasks.md`, ghép Needs/Provides, tính việc theo team, đường găng, rủi ro trễ mốc; sinh bản nháp cập nhật `dependencies.md` và `release-plan.md` để con người duyệt.
-6. **Jira / GitHub Projects vẫn là nơi theo dõi chính.** Giao người, ước lượng, tiến độ nằm ở đó. Đồng bộ task từ `tasks.md` sang issue; mỗi issue trỏ ngược về `specs/xxx/tasks.md#Txxx`.
+6. **Jira / GitHub Projects vẫn là nơi theo dõi chính.** Giao người, ước lượng, tiến độ nằm ở đó. Đồng bộ task từ `tasks.md` sang issue; mỗi issue trỏ ngược về `specs/xxx/tasks.md#Txxx`. Chi tiết cách chia việc từ HLD và tạo backlog: [speckit-backlog.md](speckit-backlog.md).
 
 | Tầng | Ai sở hữu | Trả lời |
 | --- | --- | --- |

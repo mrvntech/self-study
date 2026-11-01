@@ -1,0 +1,99 @@
+{
+  "milestones": [
+    { "key": "M0", "title": "M0 – Foundation", "due_on": "2026-12-15", "description": "Môi trường, CI/CD, observability, security baseline" },
+    { "key": "M1", "title": "M1 – Tích hợp lần 1", "due_on": "2027-01-15", "description": "Đăng nhập → đặt hàng → thanh toán chạy end-to-end trên staging" }
+  ],
+  "labels": [
+    { "name": "type:contract", "color": "fbca04", "description": "Contract API/event giữa các team" }
+  ],
+  "items": [
+    {
+      "key": "F-000",
+      "type": "enabler",
+      "title": "Foundation: môi trường, CI/CD, auth",
+      "team": "platform",
+      "milestone": "M0",
+      "parent": null,
+      "blocked_by": [],
+      "source": "docs/product/feature-map.md#F-000",
+      "body": "Dựng môi trường dev/staging, pipeline CI/CD, auth middleware dùng chung.\n\nHoàn thành khi: các team deploy được service mẫu lên staging qua pipeline."
+    },
+    {
+      "key": "F-000/T001",
+      "type": "task",
+      "title": "Tạo VPC và subnet cho dev, staging",
+      "team": "platform",
+      "milestone": "M0",
+      "parent": "F-000",
+      "blocked_by": [],
+      "source": "specs/000-foundation/tasks.md#T001",
+      "body": "Theo IP plan trong Infra LLD."
+    },
+    {
+      "key": "F-010",
+      "type": "enabler",
+      "title": "Observability: stack monitoring, SLO, alert",
+      "team": "sre",
+      "milestone": "M0",
+      "parent": null,
+      "blocked_by": ["F-000"],
+      "source": "docs/product/feature-map.md#F-010",
+      "body": "Prometheus/Loki/Tempo/Grafana/Alertmanager, recording rule SLO, alert P1/P2 kèm runbook."
+    },
+    {
+      "key": "F-011",
+      "type": "enabler",
+      "title": "Security baseline: SAST, secret, WAF",
+      "team": "security",
+      "milestone": "M0",
+      "parent": null,
+      "blocked_by": ["F-000"],
+      "source": "docs/product/feature-map.md#F-011",
+      "body": "SAST và quét dependency trong CI, Vault + External Secrets, WAF rule OWASP."
+    },
+    {
+      "key": "C-01",
+      "type": "contract",
+      "title": "Contract event order.created v1",
+      "team": "order",
+      "milestone": "M1",
+      "parent": null,
+      "blocked_by": [],
+      "source": "docs/architecture/api-catalog.md",
+      "body": "Team Order đề xuất schema, Team Payment duyệt. Ghi vào api-catalog.md."
+    },
+    {
+      "key": "F-001",
+      "type": "feature",
+      "title": "Đăng nhập",
+      "team": "identity",
+      "milestone": "M1",
+      "parent": null,
+      "blocked_by": ["F-000"],
+      "source": "docs/product/feature-map.md#F-001",
+      "body": "Đáp ứng REQ-01."
+    },
+    {
+      "key": "F-002a",
+      "type": "feature",
+      "title": "Thanh toán – phía đơn hàng",
+      "team": "order",
+      "milestone": "M1",
+      "parent": null,
+      "blocked_by": ["F-001", "C-01"],
+      "source": "docs/product/feature-map.md#F-002a",
+      "body": "Đáp ứng REQ-02, phát event order.created."
+    },
+    {
+      "key": "F-002b",
+      "type": "feature",
+      "title": "Thanh toán – phía cổng thanh toán",
+      "team": "payment",
+      "milestone": "M1",
+      "parent": null,
+      "blocked_by": ["C-01"],
+      "source": "docs/product/feature-map.md#F-002b",
+      "body": "Đáp ứng REQ-02, nhận order.created và gọi cổng thanh toán."
+    }
+  ]
+}

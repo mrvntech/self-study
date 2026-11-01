@@ -23,6 +23,8 @@
 ## III. Con người duyệt giữa các bước
 
 - Không chạy `/speckit.implement` khi spec, plan và tasks chưa được con người duyệt.
+- Chia việc (`/project.breakdown`) và backlog (`/project.backlog`) chỉ là bản đề xuất; con người duyệt trước khi ghi vào `docs/`.
+- AI không tự chạy các thao tác ghi ra hệ thống bên ngoài: `scripts/backlog-sync.sh --apply`, tạo/sửa issue, `terraform apply` lên staging hoặc prod. Người dùng tự chạy sau khi xem lại.
 
 ## IV. Vận hành
 

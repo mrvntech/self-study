@@ -4,14 +4,19 @@
 
 ## Danh sách tính năng
 
-| Mã | Tính năng | REQ đáp ứng | Team | Phụ thuộc | Spec | Release | Trạng thái |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| F-000 | Nền tảng (auth, logging, CI/CD) | — | {Platform} | — | `specs/000-foundation` | {MVP} | {Planned} |
-| F-001 | {Đăng nhập} | REQ-01 | {Team Identity} | F-000 | `specs/001-…` | {MVP} | {Planned} |
-| F-002a | {Thanh toán – phía đơn hàng} | REQ-02 | {Team Order} | F-001 | — | {v1.1} | {Planned} |
-| F-002b | {Thanh toán – phía cổng thanh toán} | REQ-02 | {Team Payment} | F-001 | — | {v1.1} | {Planned} |
-| F-010 | {Observability: stack monitoring, SLO, alert} | — | {SRE} | F-000 | — | {MVP} | {Planned} |
-| F-011 | {Security baseline: SAST, secret, WAF} | — | {Security} | F-000 | — | {MVP} | {Planned} |
+| Mã | Tính năng | Loại | REQ / NFR / HLD | Team | Phụ thuộc | Spec | Release | Trạng thái | Issue |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| F-000 | Nền tảng (auth, logging, CI/CD) | Enabler | HLD 11, 7.2 | {Platform} | — | `specs/000-foundation` | {M0} | {Planned} | {#12} |
+| F-010 | {Observability: stack monitoring, SLO, alert} | Enabler | HLD 10, NFR-005 | {SRE} | F-000 | — | {M0} | {Planned} | |
+| F-011 | {Security baseline: SAST, secret, WAF} | Enabler | HLD 7, NFR-003 | {Security} | F-000 | — | {M0} | {Planned} | |
+| C-01 | {Contract `order.created` v1} | Contract | HLD 6 | {Team Order} | — | — | {M1} | {Planned} | |
+| F-001 | {Đăng nhập} | Business | REQ-01 | {Team Identity} | F-000 | `specs/001-…` | {M1} | {Planned} | |
+| F-002a | {Thanh toán – phía đơn hàng} | Business | REQ-02 | {Team Order} | F-001, C-01 | — | {M1} | {Planned} | |
+| F-002b | {Thanh toán – phía cổng thanh toán} | Business | REQ-02 | {Team Payment} | C-01 | — | {M1} | {Planned} | |
+
+- **Loại:** Business (tính năng nghiệp vụ), Enabler (việc nền tảng cho Platform, SRE, Security, QA), Contract (thỏa thuận API/event giữa hai team, làm trước các feature dùng nó).
+- **Issue:** số issue trên GitHub, lấy từ `docs/delivery/backlog-issues.json` sau khi chạy `scripts/backlog-sync.sh --apply`.
+- Bản nháp chia việc lấy từ lệnh `/project.breakdown`; con người duyệt rồi mới ghi vào bảng này.
 
 > Việc của từng team và phụ thuộc giữa các team: [../delivery/](../delivery/).
 
