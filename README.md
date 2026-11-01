@@ -15,6 +15,7 @@ Ghi chú tự học về quy trình phát triển phần mềm (SDLC), thiết k
 | File | Nội dung |
 | --- | --- |
 | [hld-template.md](hld-template.md) | Khung HLD đầy đủ 17 mục: kiến trúc, dữ liệu, tích hợp, security, availability/DR, performance, monitoring, deployment, compliance, chi phí, ADR, truy vết NFR, checklist review |
+| [infra-after-hld.md](infra-after-hld.md) | Công việc team Infra sau HLD: Infra LLD (ai tham gia LLD), nền tảng IaC, xây hạ tầng theo lớp với Terraform/Ansible/Helm, monitoring và security dưới dạng code, kiểm chứng, Production Readiness Review |
 | [monitoring-design-hld.md](monitoring-design-hld.md) | Mẫu mục Monitoring Design cho HLD: SLI/SLO, monitoring theo tầng, logging/tracing, kiến trúc công cụ, alerting/on-call, dashboard, retention, RACI |
 
 ### Phát triển phần mềm với AI (Spec Kit)
