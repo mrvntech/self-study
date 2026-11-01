@@ -11,17 +11,9 @@
 
 ## Bản đồ stakeholder
 
-```mermaid
-quadrantChart
-    title Ảnh hưởng và mức quan tâm
-    x-axis Quan tâm thấp --> Quan tâm cao
-    y-axis Ảnh hưởng thấp --> Ảnh hưởng cao
-    quadrant-1 Quản lý chặt
-    quadrant-2 Giữ hài lòng
-    quadrant-3 Theo dõi
-    quadrant-4 Giữ thông tin
-    Sponsor: [0.85, 0.9]
-    Pháp chế: [0.25, 0.8]
-    Trưởng nhóm CSKH: [0.8, 0.5]
-    Đội vận hành: [0.5, 0.45]
-```
+Xếp mỗi stakeholder vào một ô theo hai cột "Ảnh hưởng" và "Quan tâm" ở bảng trên. Mức TB xếp vào nhóm gần hơn theo đánh giá của PM.
+
+| | **Quan tâm thấp** | **Quan tâm cao** |
+| --- | --- | --- |
+| **Ảnh hưởng cao** | **Giữ hài lòng**: báo cáo định kỳ, mời review ở các mốc quan trọng<br/>{Pháp chế} | **Quản lý chặt**: tham gia ra quyết định, duyệt ở các cổng<br/>{Sponsor} |
+| **Ảnh hưởng thấp** | **Theo dõi**: thông báo khi cần, ít tốn công<br/>{…} | **Giữ thông tin**: mời workshop, cập nhật thường xuyên<br/>{Trưởng nhóm CSKH}, {Đội vận hành} |
