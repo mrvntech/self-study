@@ -100,6 +100,51 @@ Giai đoạn 2 – Lặp lại theo feature map
 - **Kiểm tra trong CI:** mọi spec phải có mã F-xxx và REQ-xx hợp lệ.
 - **Architecture review do con người làm** định kỳ: AI tìm vấn đề, Architect quyết định.
 
+## Phân việc cho nhiều team: tầng điều phối
+
+Sau HLD, công việc được chia cho nhiều team chạy song song (Dev, Platform/DevOps, SRE, Security, QA…). `tasks.md` của Spec Kit chỉ là danh sách việc cho **một tính năng**, người đọc chính là AI khi `implement`. Nó không trả lời được:
+
+| Câu hỏi thực tế | Spec Kit có trả lời không? |
+| --- | --- |
+| Tính năng nào do team nào làm? | Không |
+| Team B đang chờ API nào của team A, chờ đến khi nào? | Không |
+| Việc của DevOps, SRE, Security, QA nằm ở đâu? | Không, trừ khi có spec riêng |
+| Khi nào các team ghép code? | Không |
+| Đường găng của cả release? | Không |
+
+Giải pháp: thêm **tầng 2.5 – Điều phối**, nằm giữa tầng hệ thống và tầng tính năng. Không nhồi vào `tasks.md` của từng tính năng.
+
+```
+Tầng 1 – Sản phẩm      PRD, feature map, NFR, glossary
+Tầng 2 – Hệ thống      HLD, domain model, API catalog, ADR
+Tầng 2.5 – Điều phối   team map, release plan, dependencies   ← docs/delivery/
+Tầng 3 – Tính năng     specs/xxx/ (spec, plan, tasks) – Spec Kit
+```
+
+1. **Một tính năng, một team.** `feature-map.md` có cột Team. Chia theo lát cắt dọc; tính năng buộc phải trải qua nhiều team thì tách thành nhiều spec (F-002a, F-002b) nối bằng contract trong `api-catalog.md`.
+2. **Việc không phải tính năng cũng là spec.** `000-foundation` (Platform), `0xx-observability` (SRE), `0xx-security-baseline` (Security). Việc thủ công (pentest, UAT, change ticket) để trong `release-plan.md`.
+3. **Nhãn trong `tasks.md`:** `[Team: …]` bắt buộc; `[Needs: …]` và `[Provides: …]` khi task phụ thuộc hoặc phục vụ team khác.
+
+   ```markdown
+   - [ ] T012 [Team: Order] [Needs: F-000/T005 auth middleware] Kiểm tra token khi tạo đơn
+   - [ ] T013 [P] [Team: Order] [Provides: order.created v1] Phát event khi tạo đơn
+   ```
+
+4. **Thư mục `docs/delivery/`:**
+   - `team-map.md`: team, thành phần sở hữu, tính năng đang làm, RACI.
+   - `release-plan.md`: mốc release, mốc tích hợp, việc thủ công, sơ đồ Gantt.
+   - `dependencies.md`: bảng Needs/Provides giữa các team (Planned → Contract approved → Ready → Done), cảnh báo.
+5. **Lệnh `/project.plan`:** đọc mọi `tasks.md`, ghép Needs/Provides, tính việc theo team, đường găng, rủi ro trễ mốc; sinh bản nháp cập nhật `dependencies.md` và `release-plan.md` để con người duyệt.
+6. **Jira / GitHub Projects vẫn là nơi theo dõi chính.** Giao người, ước lượng, tiến độ nằm ở đó. Đồng bộ task từ `tasks.md` sang issue; mỗi issue trỏ ngược về `specs/xxx/tasks.md#Txxx`.
+
+| Tầng | Ai sở hữu | Trả lời |
+| --- | --- | --- |
+| Feature map, release plan, dependencies | PO, Architect, Delivery Manager, Tech Lead các team | Ai làm gì, khi nào, chờ ai |
+| `specs/xxx/tasks.md` | Team sở hữu tính năng cùng AI | Làm tính năng này theo bước nào |
+| Jira / GitHub Projects | Cả nhóm | Ai đang làm, tiến độ đến đâu |
+
+> Spec Kit giúp **từng team** làm đúng và nhanh; tầng điều phối giúp **các team** làm khớp với nhau. Tầng điều phối do con người quyết định; AI hỗ trợ tổng hợp và phát hiện xung đột.
+
 ## Tóm tắt
 
 | Vấn đề | Giải pháp |
@@ -110,5 +155,6 @@ Giai đoạn 2 – Lặp lại theo feature map
 | Tài liệu tổng thể lỗi thời | Phase "đồng bộ tài liệu" trong tasks = Definition of Done |
 | Mâu thuẫn giữa các tính năng | Lệnh review tự viết, kiểm tra CI, architecture review |
 | Mỗi tính năng tự làm security, monitoring | Tính năng `000-foundation` làm trước |
+| Không biết team nào làm gì, ai chờ ai | Tầng điều phối `docs/delivery/`, nhãn Team/Needs/Provides, lệnh `/project.plan` |
 
 **Nguyên tắc:** Spec Kit lo **chiều sâu** của từng tính năng; tầng 1 và tầng 2 giữ **chiều rộng** của dự án. AI đọc chiều rộng trước khi đào sâu, và ghi kết quả ngược lại sau khi đào xong.

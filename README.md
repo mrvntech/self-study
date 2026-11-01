@@ -22,8 +22,8 @@ Ghi chú tự học về quy trình phát triển phần mềm (SDLC), thiết k
 | File | Nội dung |
 | --- | --- |
 | [speckit-vs-sdlc.md](speckit-vs-sdlc.md) | Ánh xạ lệnh Spec Kit vào SDLC; phase nào bị thu gọn hoặc bỏ qua, vì sao, và cách bù; 10 điểm cần lưu ý |
-| [speckit-big-picture.md](speckit-big-picture.md) | Mô hình 3 tầng tài liệu để giữ cái nhìn tổng thể khi Spec Kit làm theo từng tính năng |
-| [speckit-docs-skeleton/](speckit-docs-skeleton/) | Bộ khung dùng ngay: PRD, feature map, NFR, glossary, HLD, domain model, API catalog, ADR, constitution, phần bổ sung template, lệnh `/project.review` |
+| [speckit-big-picture.md](speckit-big-picture.md) | Mô hình tầng tài liệu (sản phẩm, hệ thống, điều phối, tính năng) để giữ cái nhìn tổng thể và phân việc cho nhiều team khi Spec Kit làm theo từng tính năng |
+| [speckit-docs-skeleton/](speckit-docs-skeleton/) | Bộ khung dùng ngay: PRD, feature map, NFR, glossary, HLD, domain model, API catalog, ADR, team map, release plan, dependencies, constitution, phần bổ sung template, lệnh `/project.review` và `/project.plan` |
 
 ### Runbook
 

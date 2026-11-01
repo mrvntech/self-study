@@ -14,6 +14,12 @@
 
 - Mỗi tính năng chỉ được coi là xong khi phase "Đồng bộ tài liệu tổng thể" trong `tasks.md` hoàn tất.
 
+## II-b. Phối hợp giữa các team
+
+- Mỗi tính năng thuộc về đúng một team trong `docs/delivery/team-map.md`.
+- Mỗi task trong `tasks.md` có nhãn `[Team: …]`; task cần hoặc cung cấp thứ cho team khác có thêm `[Needs: …]` hoặc `[Provides: …]`, dùng đúng tên trong `api-catalog.md`.
+- Không bắt đầu task có `Needs` khi phụ thuộc tương ứng trong `docs/delivery/dependencies.md` chưa ở trạng thái `Contract approved`.
+
 ## III. Con người duyệt giữa các bước
 
 - Không chạy `/speckit.implement` khi spec, plan và tasks chưa được con người duyệt.
