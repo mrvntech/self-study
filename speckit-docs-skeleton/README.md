@@ -7,7 +7,11 @@ Bộ khung này giữ cái nhìn tổng thể (tầng sản phẩm và tầng h�
 1. Copy toàn bộ thư mục này (kể cả các thư mục ẩn `.specify/` và `.claude/`) vào gốc dự án **sau khi** đã chạy `specify init`.
 2. Gộp `.specify/memory/constitution.md` với constitution sẵn có của dự án, hoặc dùng lệnh `/speckit.constitution` để AI gộp giúp.
 3. Chèn nội dung trong `.specify/templates-additions/` vào cuối các template tương ứng trong `.specify/templates/` (`spec-template.md`, `plan-template.md`, `tasks-template.md`).
-4. Điền Giai đoạn 0 theo thứ tự: `prd.md` → `feature-map.md` → `nfr.md` → `glossary.md` → `hld.md` → `domain-model.md` → `api-catalog.md`.
+4. Làm Giai đoạn 0 – Discovery theo [hướng dẫn](https://github.com/mrvntech/self-study/blob/main/discovery-phase0-guideline.md):
+   - Thu thập đầu vào vào `docs/discovery/inputs/`, ghi biên bản vào `docs/discovery/workshops/`.
+   - B2–B4: `business-context.md`, `as-is.md`, `story-map.md`.
+   - B5–B6: `/project.discovery` soạn nháp `prd.md`, `nfr.md`, `glossary.md`, `feature-map.md` lượt 1; con người duyệt.
+   - B7–B8: `event-storming.md`, `domain-model.md`, `hld.md`, `adr/`, `api-catalog.md`.
 5. Điền tầng điều phối: `team-map.md` → `release-plan.md` (các mốc).
 6. Chia việc và tạo backlog:
    - `/project.breakdown`: AI đề xuất feature/epic theo team, enabler, contract, phụ thuộc. Con người duyệt rồi cập nhật `feature-map.md`, `dependencies.md`.
@@ -24,6 +28,14 @@ Tên thư mục và template của Spec Kit có thể khác theo phiên bản. �
 
 ```
 docs/
+├── discovery/                   # Giai đoạn 0
+│   ├── inputs/                  # business-brief, stakeholders, current-systems, constraints
+│   ├── workshops/               # workshop-notes (template biên bản)
+│   ├── business-context.md
+│   ├── as-is.md
+│   ├── story-map.md
+│   ├── event-storming.md
+│   └── open-questions.md
 ├── product/
 │   ├── prd.md
 │   ├── feature-map.md
@@ -47,6 +59,7 @@ docs/
     ├── plan-template.additions.md
     └── tasks-template.additions.md
 .claude/commands/
+├── project.discovery.md         # discovery → nháp story map, PRD, NFR, glossary, feature map lượt 1
 ├── project.breakdown.md         # HLD → đề xuất chia việc theo team
 ├── project.backlog.md           # feature map (+ tasks) → backlog.json
 ├── project.review.md            # kiểm tra chéo nội dung giữa các tính năng
@@ -59,6 +72,7 @@ scripts/
 
 | Tầng | Thư mục | Trả lời |
 | --- | --- | --- |
+| 0. Discovery | `docs/discovery/` | Vấn đề là gì, người dùng là ai, đang làm thế nào |
 | 1. Sản phẩm | `docs/product/` | Làm gì, cho ai, theo thứ tự nào |
 | 2. Hệ thống | `docs/architecture/` | Các phần ghép với nhau thế nào |
 | 2.5. Điều phối | `docs/delivery/` | Team nào làm gì, chờ ai, khi nào tích hợp |
