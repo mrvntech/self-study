@@ -26,7 +26,7 @@ Ghi chú tự học về quy trình phát triển phần mềm (SDLC), thiết k
 | [speckit-big-picture.md](speckit-big-picture.md) | Mô hình tầng tài liệu (sản phẩm, hệ thống, điều phối, tính năng) để giữ cái nhìn tổng thể và phân việc cho nhiều team khi Spec Kit làm theo từng tính năng |
 | [discovery-phase0-guideline.md](discovery-phase0-guideline.md) | Hướng dẫn Giai đoạn 0 – Discovery: đầu vào cần chuẩn bị và định dạng, 10 bước (ai tham gia, làm gì, ra gì), RACI, dùng AI, checklist cổng Ready for Spec Kit |
 | [speckit-backlog.md](speckit-backlog.md) | Chia việc cho các team từ HLD và tạo backlog trên GitHub Issues: lệnh `/project.breakdown`, `/project.backlog`, script `backlog-sync.sh` |
-| [speckit-docs-skeleton/](speckit-docs-skeleton/) | Bộ khung dùng ngay: PRD, feature map, NFR, glossary, HLD, domain model, API catalog, ADR, team map, release plan, dependencies, constitution, phần bổ sung template, lệnh `/project.breakdown`, `/project.backlog`, `/project.review`, `/project.plan`, script đồng bộ backlog |
+| [speckit-docs-skeleton/](speckit-docs-skeleton/) | Bộ khung dùng ngay: PRD, feature map, NFR, glossary, HLD, domain model, API catalog, ADR, team map, release plan, dependencies, constitution, phần bổ sung template, lệnh `/project.discovery`, `/project.hld`, `/project.teammap`, `/project.breakdown`, `/project.backlog`, `/project.review`, `/project.plan`, script đồng bộ backlog |
 
 ### Runbook
 

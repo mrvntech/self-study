@@ -183,7 +183,7 @@ Mỗi bước gồm: mục tiêu, người tham gia, đầu vào, cách làm, đ
 | **Đầu vào** | `prd.md`, `nfr.md`, `domain-model.md`, I4, I5 |
 | **Cách làm** | Điền HLD theo [hld-template.md](hld-template.md): thành phần (theo bounded context) và **team sở hữu**, dữ liệu, tích hợp, security, DR, monitoring ([monitoring-design-hld.md](monitoring-design-hld.md)), infra, chi phí; mỗi lựa chọn quan trọng ghi ADR; bảng truy vết NFR |
 | **Đầu ra** | `hld.md`, `adr/*.md`, `api-catalog.md` (mức đầu) |
-| **AI hỗ trợ** | Soạn nháp từng mục HLD theo template; so sánh phương án cho ADR; kiểm tra NFR nào chưa có mục HLD đáp ứng |
+| **AI hỗ trợ** | `/project.hld`: soạn nháp từng mục HLD theo template (bảng team sở hữu, "Team thực hiện"); ADR có so sánh phương án; `api-catalog.md` mức đầu; kiểm tra NFR nào chưa có mục HLD đáp ứng |
 | **Xong khi** | Architect, Security, SRE ký duyệt; mọi NFR có mục HLD tương ứng |
 
 ### B9. Team map, chia việc, release plan
@@ -194,9 +194,9 @@ Mỗi bước gồm: mục tiêu, người tham gia, đầu vào, cách làm, đ
 | **Người tham gia** | PM/Delivery, Architect, PO, Engineering Manager, Tech Lead các team |
 | **Thời lượng** | 1–2 buổi |
 | **Đầu vào** | `feature-map.md` lượt 1, `hld.md`, I8 |
-| **Cách làm** | Điền `team-map.md`; chạy `/project.breakdown`; review đề xuất, chỉnh ranh giới và ưu tiên; chốt mốc M0, M1, MVP; hoàn thiện constitution |
+| **Cách làm** | Chạy `/project.teammap` để soạn nháp `team-map.md`, chốt team và ranh giới; chạy `/project.breakdown`; review đề xuất, chỉnh ranh giới và ưu tiên; chốt mốc M0, M1, MVP; hoàn thiện constitution |
 | **Đầu ra** | `feature-map.md` lượt 2, `team-map.md`, `release-plan.md`, `dependencies.md`, `constitution.md` |
-| **AI hỗ trợ** | `/project.breakdown` |
+| **AI hỗ trợ** | `/project.teammap`, `/project.breakdown` |
 | **Xong khi** | Mọi feature có đúng một team; có F-000 và các enabler; mốc MVP có ngày |
 
 ### B10. Cổng Ready for Spec Kit
@@ -230,7 +230,8 @@ Họp review 1–2 giờ với Sponsor, PO, Architect, PM, Tech Lead các team, 
 | --- | --- |
 | Tóm tắt tài liệu, biên bản | Đưa file Markdown đã ẩn danh; yêu cầu giữ nguồn của từng ý |
 | Soạn nháp PRD, NFR, glossary, feature map lượt 1 | Lệnh `/project.discovery` |
-| Soạn nháp HLD, ADR | Đưa `hld-template.md` + PRD, NFR, domain model; mỗi lần một mục |
+| Soạn nháp HLD, ADR, API catalog | Lệnh `/project.hld` (khung), rồi `/project.hld <tên mục>`, `/project.hld adr`; mỗi lần một mục |
+| Soạn nháp team map | Lệnh `/project.teammap` |
 | Chia việc | `/project.breakdown` |
 | Tìm chỗ thiếu | Hỏi: REQ nào mơ hồ, NFR nào thiếu số, story nào chưa có, entity nào chưa có chủ |
 

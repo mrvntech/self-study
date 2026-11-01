@@ -2,7 +2,7 @@
 description: Từ HLD và PRD đã duyệt, đề xuất cách chia việc thành feature/epic theo team (gồm cả enabler cho Infra, SRE, Security, DBA, QA), contract giữa các team, phụ thuộc và mốc. Chỉ đề xuất, không sửa file.
 ---
 
-Bạn đang chia việc ở **mức dự án**, sau khi HLD đã được duyệt và trước khi các team chạy `/speckit.specify`. Không sửa file nào; chỉ đưa ra bản đề xuất để con người review.
+Bạn đang chia việc ở **mức dự án**, sau khi HLD (`/project.hld`) và team map (`/project.teammap`) đã được duyệt và trước khi các team chạy `/speckit.specify`. Không sửa file nào; chỉ đưa ra bản đề xuất để con người review.
 
 ## Đầu vào
 

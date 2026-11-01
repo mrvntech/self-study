@@ -44,4 +44,4 @@ Phạm vi từ người dùng (ví dụ `story-map`, `prd`, `nfr`, `glossary`, `
 1. Danh sách file đã tạo hoặc sửa.
 2. Bảng chỗ thiếu, xếp theo mức độ (Chặn MVP / Quan trọng / Nhỏ).
 3. Câu hỏi cần hỏi stakeholder ở buổi workshop tiếp theo, nhóm theo người cần hỏi.
-4. Bước tiếp theo theo hướng dẫn (B4, B5, B6 hoặc B7).
+4. Bước tiếp theo theo hướng dẫn (B4, B5, B6 hoặc B7). Sau B7, dùng `/project.hld` cho B8.

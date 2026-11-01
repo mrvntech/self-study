@@ -2,7 +2,7 @@
 
 > Ghi chú tự học · Cập nhật: 2026-11-02
 > Liên quan: [discovery-phase0-guideline.md](discovery-phase0-guideline.md) · [speckit-big-picture.md](speckit-big-picture.md) · [speckit-vs-sdlc.md](speckit-vs-sdlc.md)
-> Hiện thực: [speckit-docs-skeleton/](speckit-docs-skeleton/) (lệnh `/project.discovery`, `/project.breakdown`, `/project.backlog`, script `scripts/backlog-sync.sh`)
+> Hiện thực: [speckit-docs-skeleton/](speckit-docs-skeleton/) (lệnh `/project.discovery`, `/project.hld`, `/project.teammap`, `/project.breakdown`, `/project.backlog`, script `scripts/backlog-sync.sh`)
 
 ## Vấn đề
 
@@ -45,10 +45,10 @@ B6 Feature map lượt 1 ───────── gom story/REQ thành featur
 B7 Event storming ───────────── event, entity, bounded context           (domain-model.md)
         │
         ▼
-B8 HLD, ADR ─────────────────── thành phần, team sở hữu, mục xuyên suốt
+B8 HLD, ADR ─────────────────── thành phần, team sở hữu, mục xuyên suốt  (/project.hld soạn nháp)
         │
         ▼
-B9 Feature map lượt 2 ───────── /project.breakdown → team, enabler, contract, mốc
+B9 Team map, feature map lượt 2 ─ /project.teammap → /project.breakdown → team, enabler, contract, mốc
         │
         ▼
 B10 Cổng Ready for Spec Kit ─── checklist sản phẩm, hệ thống, điều phối
@@ -97,7 +97,8 @@ v1.1        Lọc, gợi ý         Mã giảm giá        Ví điện tử     
 
 ```mermaid
 flowchart TB
-    Z["Giai đoạn 0 (B1–B8)<br/>/project.discovery: feature map lượt 1"] --> A
+    Z["Giai đoạn 0 (B1–B7)<br/>/project.discovery: PRD, NFR, feature map lượt 1"] --> Z2
+    Z2["/project.hld: HLD, ADR, API catalog<br/>/project.teammap: team-map"] --> A
     A[HLD + PRD + NFR + team-map đã duyệt] --> B["/project.breakdown<br/>AI đề xuất feature theo team,<br/>enabler, contract, phụ thuộc"]
     B --> C[Con người review qua PR<br/>PO, Architect, Tech Lead]
     C --> D[feature-map.md, dependencies.md,<br/>release-plan.md]
@@ -108,6 +109,66 @@ flowchart TB
     H --> I["/project.backlog --with-tasks<br/>→ backlog-sync.sh"]
     I --> J[Task thành sub-issue của feature<br/>= sprint backlog]
 ```
+
+## Lệnh theo từng giai đoạn
+
+| Giai đoạn | Bước | Lệnh | Đầu ra |
+| --- | --- | --- | --- |
+| **0. Discovery** | B1–B3 Kickoff, mục tiêu, AS-IS | *(con người, workshop)* | `docs/discovery/` |
+| | B4 Story map | `/project.discovery story-map` | `story-map.md` (nháp) |
+| | B5 PRD, NFR, glossary | `/project.discovery prd`, `nfr`, `glossary` | `prd.md`, `nfr.md`, `glossary.md` (nháp) |
+| | B6 Feature map lượt 1 | `/project.discovery feature-map` | `feature-map.md` (nháp) |
+| | B7 Event storming | *(con người, workshop)* | `event-storming.md`, `domain-model.md` |
+| | B8 HLD, ADR, API catalog | `/project.hld` (theo mục: `/project.hld components`, `security`, `adr`, `trace`…) | `hld.md`, `adr/`, `api-catalog.md` (nháp) |
+| | B9 Team map | `/project.teammap` | `team-map.md` (nháp) |
+| | B9 Feature map lượt 2 | `/project.breakdown` | Đề xuất feature theo team, enabler, contract |
+| | B10 Cổng Ready for Spec Kit | `/project.discovery gaps` | Danh sách thiếu sót còn lại |
+| **1. Product backlog** | Sinh dữ liệu | `/project.backlog` | `docs/delivery/backlog.json` |
+| | Đẩy lên GitHub | `scripts/backlog-sync.sh` → `--apply` | Issue, milestone, nhãn |
+| **2. Từng feature** (mỗi team) | Nguyên tắc dự án (một lần) | `/speckit.constitution` | `memory/constitution.md` |
+| | Đặc tả | `/speckit.specify` → `/speckit.clarify` | `specs/xxx/spec.md` |
+| | Thiết kế | `/speckit.plan` | `plan.md`, `data-model.md`, `contracts/` |
+| | Kiểm tra chéo dự án | `/project.review` | Báo cáo lệch PRD, NFR, HLD, glossary |
+| | Chia task | `/speckit.tasks` → `/speckit.analyze` | `tasks.md` |
+| **3. Sprint backlog** | Điều phối giữa team | `/project.plan` | Nháp `dependencies.md`, `release-plan.md` |
+| | Đẩy task lên GitHub | `/project.backlog --with-tasks` → `scripts/backlog-sync.sh --apply` | Sub-issue của feature |
+| **4. Hiện thực** | Code theo task | `/speckit.implement` | Code, test |
+
+```bash
+# Giai đoạn 0
+/project.discovery gaps            # luôn chạy trước để biết thiếu gì
+/project.discovery                 # soạn nháp story map, PRD, NFR, glossary, feature map lượt 1
+/project.hld                       # sau event storming: khung HLD, bảng bắt buộc, danh sách ADR cần có
+/project.hld components            # soạn từng mục: thành phần + team sở hữu
+/project.hld security              # Security + bảng "Team thực hiện"
+/project.hld adr                   # tạo file ADR cho các lựa chọn quan trọng
+/project.hld trace                 # truy vết NFR → mục HLD
+/project.teammap                   # sau khi HLD được duyệt
+/project.breakdown                 # sau khi HLD và team-map được duyệt
+/project.breakdown chỉ mốc M1      # giới hạn phạm vi
+
+# Giai đoạn 1
+/project.backlog
+scripts/backlog-sync.sh            # chạy thử, xem lại kết quả
+scripts/backlog-sync.sh --apply    # ghi thật
+
+# Giai đoạn 2–3 (lặp cho từng feature)
+/speckit.specify F-002a Thanh toán – phía đơn hàng
+/speckit.clarify
+/speckit.plan
+/project.review
+/speckit.tasks
+/speckit.analyze
+/project.plan
+/project.backlog --with-tasks
+scripts/backlog-sync.sh            # chạy thử
+scripts/backlog-sync.sh --apply
+
+# Giai đoạn 4
+/speckit.implement
+```
+
+Ví dụ chạy thật `/project.hld`, `/project.teammap`, `/project.breakdown` trên dự án mẫu: [speckit-docs-skeleton/examples/shopnow/](speckit-docs-skeleton/examples/shopnow/).
 
 ## Hai cấp backlog
 

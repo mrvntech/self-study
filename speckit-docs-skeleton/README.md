@@ -11,8 +11,9 @@ Bộ khung này giữ cái nhìn tổng thể (tầng sản phẩm và tầng h�
    - Thu thập đầu vào vào `docs/discovery/inputs/`, ghi biên bản vào `docs/discovery/workshops/`.
    - B2–B4: `business-context.md`, `as-is.md`, `story-map.md`.
    - B5–B6: `/project.discovery` soạn nháp `prd.md`, `nfr.md`, `glossary.md`, `feature-map.md` lượt 1; con người duyệt.
-   - B7–B8: `event-storming.md`, `domain-model.md`, `hld.md`, `adr/`, `api-catalog.md`.
-5. Điền tầng điều phối: `team-map.md` → `release-plan.md` (các mốc).
+   - B7: `event-storming.md`, `domain-model.md`.
+   - B8: `/project.hld` soạn nháp từng mục `hld.md`, `adr/`, `api-catalog.md`; Architect, Security, SRE duyệt.
+5. Điền tầng điều phối: `/project.teammap` soạn nháp `team-map.md`; con người duyệt rồi điền `release-plan.md` (các mốc).
 6. Chia việc và tạo backlog:
    - `/project.breakdown`: AI đề xuất feature/epic theo team, enabler, contract, phụ thuộc. Con người duyệt rồi cập nhật `feature-map.md`, `dependencies.md`.
    - `/project.backlog`: AI sinh `docs/delivery/backlog.json` từ feature map.
@@ -60,6 +61,8 @@ docs/
     └── tasks-template.additions.md
 .claude/commands/
 ├── project.discovery.md         # discovery → nháp story map, PRD, NFR, glossary, feature map lượt 1
+├── project.hld.md               # PRD, NFR, domain model → nháp HLD, ADR, API catalog
+├── project.teammap.md           # HLD + nguồn lực → nháp team map
 ├── project.breakdown.md         # HLD → đề xuất chia việc theo team
 ├── project.backlog.md           # feature map (+ tasks) → backlog.json
 ├── project.review.md            # kiểm tra chéo nội dung giữa các tính năng
@@ -67,7 +70,10 @@ docs/
 scripts/
 └── backlog-sync.sh              # backlog.json → GitHub Issues (mặc định chạy thử)
 examples/
-└── shopnow-breakdown.example.md # ví dụ output của /project.breakdown
+├── shopnow/                     # dự án mẫu: đầu vào sau B7, file do /project.hld, /project.teammap sinh ra, bản đã duyệt giả lập
+├── shopnow-hld.example.md       # output thật của /project.hld
+├── shopnow-teammap.example.md   # output thật của /project.teammap
+└── shopnow-breakdown.example.md # output thật của /project.breakdown
 ```
 
 `backlog-sync.sh` cần `gh` (đã đăng nhập), `jq` và bash 4 trở lên. Script nhận diện issue bằng tiền tố `[KEY]` trong tiêu đề nên chạy lại không tạo trùng.
