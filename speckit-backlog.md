@@ -174,6 +174,8 @@ Ví dụ kết quả:
 | F-014 | Backup và DR | Enabler | — | Infra | F-000 |
 | F-002a | Thanh toán – phía đơn hàng | Business | — | Order | F-001p, C-01 |
 
+Ví dụ đầy đủ một báo cáo của lệnh (dự án mẫu ShopNow): [speckit-docs-skeleton/examples/shopnow-breakdown.example.md](speckit-docs-skeleton/examples/shopnow-breakdown.example.md).
+
 **Việc hạ tầng phát sinh sau** (team cần DB, queue mới khi `/speckit.plan`): ghi trong mục "Ảnh hưởng kiến trúc" của `plan.md`, task có nhãn `[Needs: infra/…]`; `/project.plan` cảnh báo khi chưa có `Provides`; Delivery Manager tạo feature mới cho Infra.
 
 ## `/project.backlog` và `backlog-sync.sh`: đẩy backlog lên GitHub
