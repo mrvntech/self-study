@@ -1,17 +1,31 @@
 {
   "milestones": [
-    { "key": "M0", "title": "M0 – Foundation", "due_on": "2026-12-15", "description": "Môi trường, CI/CD, observability, security baseline" },
-    { "key": "M1", "title": "M1 – Tích hợp lần 1", "due_on": "2027-01-15", "description": "Đăng nhập → đặt hàng → thanh toán chạy end-to-end trên staging" }
+    {
+      "key": "M0",
+      "title": "M0 – Foundation",
+      "due_on": "2026-12-15",
+      "description": "Môi trường, CI/CD, observability, security baseline"
+    },
+    {
+      "key": "M1",
+      "title": "M1 – Tích hợp lần 1",
+      "due_on": "2027-01-15",
+      "description": "Đăng nhập → đặt hàng → thanh toán chạy end-to-end trên staging"
+    }
   ],
   "labels": [
-    { "name": "type:contract", "color": "fbca04", "description": "Contract API/event giữa các team" }
+    {
+      "name": "type:contract",
+      "color": "fbca04",
+      "description": "Contract API/event giữa các team"
+    }
   ],
   "items": [
     {
       "key": "F-000",
       "type": "enabler",
       "title": "Foundation: môi trường, CI/CD, auth",
-      "team": "platform",
+      "team": "infra",
       "milestone": "M0",
       "parent": null,
       "blocked_by": [],
@@ -22,7 +36,7 @@
       "key": "F-000/T001",
       "type": "task",
       "title": "Tạo VPC và subnet cho dev, staging",
-      "team": "platform",
+      "team": "infra",
       "milestone": "M0",
       "parent": "F-000",
       "blocked_by": [],
@@ -30,26 +44,82 @@
       "body": "Theo IP plan trong Infra LLD."
     },
     {
-      "key": "F-010",
+      "key": "F-001p",
       "type": "enabler",
-      "title": "Observability: stack monitoring, SLO, alert",
-      "team": "sre",
+      "title": "Golden path: Helm chart chuẩn, ingress, cert-manager, External Secrets",
+      "team": "infra",
       "milestone": "M0",
       "parent": null,
-      "blocked_by": ["F-000"],
+      "blocked_by": [
+        "F-000"
+      ],
+      "source": "docs/product/feature-map.md#F-001p",
+      "body": "Helm chart chuẩn có probe, ServiceMonitor, NetworkPolicy mặc định, cấu hình log.\n\nHoàn thành khi: một service mẫu deploy bằng chart này đạt checklist monitoring và security."
+    },
+    {
+      "key": "F-010",
+      "type": "enabler",
+      "title": "Observability stack: Prometheus, Loki, Tempo, Grafana, Alertmanager",
+      "team": "infra",
+      "milestone": "M0",
+      "parent": null,
+      "blocked_by": [
+        "F-000"
+      ],
       "source": "docs/product/feature-map.md#F-010",
-      "body": "Prometheus/Loki/Tempo/Grafana/Alertmanager, recording rule SLO, alert P1/P2 kèm runbook."
+      "body": "Dựng stack monitoring (lớp L5) ở cluster riêng, Grafana đăng nhập SSO, meta-monitoring."
     },
     {
       "key": "F-011",
       "type": "enabler",
-      "title": "Security baseline: SAST, secret, WAF",
+      "title": "SLO, alert, dashboard, runbook",
+      "team": "sre",
+      "milestone": "M1",
+      "parent": null,
+      "blocked_by": [
+        "F-010"
+      ],
+      "source": "docs/product/feature-map.md#F-011",
+      "body": "Recording rule SLO, alert P1/P2 theo burn rate kèm runbook, dashboard tổng quan."
+    },
+    {
+      "key": "F-012",
+      "type": "enabler",
+      "title": "Security baseline: SIEM, WAF, quét lỗ hổng",
       "team": "security",
       "milestone": "M0",
       "parent": null,
-      "blocked_by": ["F-000"],
-      "source": "docs/product/feature-map.md#F-011",
-      "body": "SAST và quét dependency trong CI, Vault + External Secrets, WAF rule OWASP."
+      "blocked_by": [
+        "F-000"
+      ],
+      "source": "docs/product/feature-map.md#F-012",
+      "body": "SAST và quét dependency trong CI, WAF rule OWASP, chuyển audit log về SIEM."
+    },
+    {
+      "key": "F-013",
+      "type": "enabler",
+      "title": "Hardening OS theo CIS (Ansible)",
+      "team": "infra",
+      "milestone": "M0",
+      "parent": null,
+      "blocked_by": [
+        "F-000"
+      ],
+      "source": "docs/product/feature-map.md#F-013",
+      "body": "Role Ansible hardening theo chuẩn CIS đã được Security chốt; auditd; kiểm tra bằng OpenSCAP/Lynis."
+    },
+    {
+      "key": "F-014",
+      "type": "enabler",
+      "title": "Backup và DR",
+      "team": "infra",
+      "milestone": "M1",
+      "parent": null,
+      "blocked_by": [
+        "F-000"
+      ],
+      "source": "docs/product/feature-map.md#F-014",
+      "body": "Backup mã hóa sang vùng khác, diễn tập khôi phục đạt RPO/RTO trong NFR-006."
     },
     {
       "key": "C-01",
@@ -69,7 +139,9 @@
       "team": "identity",
       "milestone": "M1",
       "parent": null,
-      "blocked_by": ["F-000"],
+      "blocked_by": [
+        "F-001p"
+      ],
       "source": "docs/product/feature-map.md#F-001",
       "body": "Đáp ứng REQ-01."
     },
@@ -80,7 +152,11 @@
       "team": "order",
       "milestone": "M1",
       "parent": null,
-      "blocked_by": ["F-001", "C-01"],
+      "blocked_by": [
+        "F-001p",
+        "F-001",
+        "C-01"
+      ],
       "source": "docs/product/feature-map.md#F-002a",
       "body": "Đáp ứng REQ-02, phát event order.created."
     },
@@ -91,7 +167,10 @@
       "team": "payment",
       "milestone": "M1",
       "parent": null,
-      "blocked_by": ["C-01"],
+      "blocked_by": [
+        "F-001p",
+        "C-01"
+      ],
       "source": "docs/product/feature-map.md#F-002b",
       "body": "Đáp ứng REQ-02, nhận order.created và gọi cổng thanh toán."
     }

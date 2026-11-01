@@ -76,7 +76,7 @@ v1.1        Lọc, gợi ý         Mã giảm giá        Ví điện tử     
 | Lượt 1 (sau PRD) | Lượt 2 (sau HLD) |
 | --- | --- |
 | F-002 Đặt hàng và thanh toán | F-002a (Team Order), F-002b (Team Payment), C-01 contract `order.created` |
-| *(không có)* | F-000 Foundation (Platform), F-010 Observability (SRE), F-011 Security baseline (Security) |
+| *(không có)* | F-000 Foundation, F-001p Golden path, F-010 Observability stack (Infra); F-011 SLO, alert (SRE); F-012 Security baseline (Security) |
 
 ### `/project.discovery`
 
@@ -132,7 +132,49 @@ flowchart TB
 | Feature lớn hơn khoảng 5–7 user story thì tách | Vừa sức AI, vừa một mốc |
 | Không tự đặt ngày | Ngày do con người quyết |
 
-**Đầu ra (chỉ đề xuất):** bảng feature map có cột Loại (Business / Enabler / Contract), Nguồn, Cỡ; việc theo team; phụ thuộc; sơ đồ; truy vết REQ/NFR/HLD chưa có feature; câu hỏi cần con người quyết định.
+**Đầu ra (chỉ đề xuất):** thiếu sót đầu vào; bảng feature map có cột Loại (Business / Enabler / Contract), Nguồn, Lớp, Cỡ; việc theo team; phụ thuộc và đường găng; sơ đồ; truy vết REQ/NFR/HLD chưa có feature; câu hỏi cần con người quyết định.
+
+### Chia việc cho Infra và các team chuyên trách
+
+Lệnh không tự biết việc nào của Infra. Nó **đối chiếu tài liệu đầu vào**, nên tài liệu phải ghi rõ ai sở hữu gì:
+
+```
+team-map.md ──── thành phần sở hữu, ranh giới việc xuyên suốt
+HLD mục 4 ────── thành phần → team sở hữu            ──► feature Business
+HLD 7, 8, 10, 11 bảng "Team thực hiện"               ──► feature Enabler (Infra, SRE, Security, DBA)
+nfr.md ───────── NFR → mục HLD                        ──► kiểm tra NFR chưa có enabler
+api-catalog.md ─ API/event giữa các team              ──► Contract C-xx
+```
+
+| Đầu vào cần có | Vì sao |
+| --- | --- |
+| `team-map.md` ghi **cụ thể** thành phần Infra sở hữu (mạng, IAM, K8s, CI/CD, IaC, golden path, stack monitoring, backup) | "Infra: hạ tầng" quá chung, việc bị gom thành một feature khổng lồ |
+| Bảng **ranh giới việc xuyên suốt** trong `team-map.md` (Infra dựng stack, SRE viết SLO/alert; Security đặt chính sách, Infra hiện thực) | Không gộp việc hai team vào một feature |
+| Bảng **"Team thực hiện"** ở đầu HLD mục 7, 8, 10, 11 ([hld-template.md](hld-template.md)) | Nguồn chính để sinh enabler |
+| Cột "Mục HLD đáp ứng" trong `nfr.md` đủ | Phát hiện NFR chưa có ai làm |
+
+Thiếu các bảng trên thì lệnh dùng **ánh xạ mặc định** (ví dụ HLD Monitoring → Infra dựng stack + SRE cấu hình SLO/alert; HLD Security → Security chính sách + Infra hiện thực IAM, mạng, hardening) và đánh dấu "giả định" để con người kiểm tra.
+
+**Quy tắc riêng cho hạ tầng:**
+
+- Tách theo **lớp và kết quả đầu ra**: L0 nền móng → L1 mạng → L2 security baseline → L3 compute/K8s/DB → L4 cấu hình OS → L5 observability stack → L6 golden path. Có thể gộp lớp liền nhau (Foundation = L0–L3), nhưng L5 và L6 luôn tách riêng vì nhiều team phụ thuộc.
+- Feature business phụ thuộc **golden path**, không chỉ foundation; SLO/alert phụ thuộc observability stack.
+- Đánh dấu feature hạ tầng nằm trên **đường găng** của nhiều team.
+
+Ví dụ kết quả:
+
+| Mã | Feature | Loại | Lớp | Team | Phụ thuộc |
+| --- | --- | --- | --- | --- | --- |
+| F-000 | Foundation: account/IAM, mạng, K8s, CI/CD | Enabler | L0–L3 | Infra | — |
+| F-001p | Golden path: Helm chart, ingress, secrets | Enabler | L6 | Infra | F-000 |
+| F-010 | Observability stack | Enabler | L5 | Infra | F-000 |
+| F-011 | SLO, alert, dashboard, runbook | Enabler | — | SRE | F-010 |
+| F-012 | Security baseline: SIEM, WAF, quét | Enabler | — | Security | F-000 |
+| F-013 | Hardening OS (Ansible) | Enabler | L4 | Infra | F-000 |
+| F-014 | Backup và DR | Enabler | — | Infra | F-000 |
+| F-002a | Thanh toán – phía đơn hàng | Business | — | Order | F-001p, C-01 |
+
+**Việc hạ tầng phát sinh sau** (team cần DB, queue mới khi `/speckit.plan`): ghi trong mục "Ảnh hưởng kiến trúc" của `plan.md`, task có nhãn `[Needs: infra/…]`; `/project.plan` cảnh báo khi chưa có `Provides`; Delivery Manager tạo feature mới cho Infra.
 
 ## `/project.backlog` và `backlog-sync.sh`: đẩy backlog lên GitHub
 

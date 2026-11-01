@@ -19,6 +19,14 @@
 11. Quyết định kiến trúc → [adr/](adr/)
 12. Truy vết NFR → [../product/nfr.md](../product/nfr.md)
 
+## Bắt buộc để chia việc
+
+Lệnh `/project.breakdown` chỉ chia đúng khi HLD có:
+
+- **Bảng thành phần và team sở hữu** ở mục thành phần.
+- **Bảng "Team thực hiện"** ở đầu các mục Security, Availability/DR, Monitoring, Deployment/Infra. Mẫu bảng có trong `hld-template.md`.
+- Tên team khớp [../delivery/team-map.md](../delivery/team-map.md).
+
 ## Lịch sử thay đổi do tính năng
 
 | Ngày | Tính năng | Mục thay đổi | ADR liên quan |

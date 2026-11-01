@@ -6,7 +6,7 @@
 
 | Mã | Thứ cần | Bên cung cấp (team / tính năng / task) | Bên cần (team / tính năng / task) | Hạn chốt contract | Hạn sẵn sàng | Trạng thái |
 | --- | --- | --- | --- | --- | --- | --- |
-| D-01 | {auth middleware} | {Platform / F-000 / T005} | {Team Order / F-002a / T012} | — | {YYYY-MM-DD} | {Done} |
+| D-01 | {auth middleware} | {Infra / F-000 / T005} | {Team Order / F-002a / T012} | — | {YYYY-MM-DD} | {Done} |
 | D-02 | {`order.created` v1} | {Team Order / F-002a / T013} | {Team Payment / F-002b / T004} | {YYYY-MM-DD} | {YYYY-MM-DD} | {Contract approved} |
 | D-03 | {`payment.succeeded` v1} | {Team Payment / F-002b / T010} | {Team Order / F-002a / T020} | {YYYY-MM-DD} | {YYYY-MM-DD} | {Planned} |
 
@@ -16,7 +16,7 @@ Trạng thái: `Planned` → `Contract approved` (bên cần làm được bằn
 
 ```mermaid
 flowchart LR
-    P[Platform<br/>F-000] -- D-01 auth --> O[Team Order<br/>F-002a]
+    P[Infra<br/>F-000] -- D-01 auth --> O[Team Order<br/>F-002a]
     O -- D-02 order.created --> Y[Team Payment<br/>F-002b]
     Y -- D-03 payment.succeeded --> O
 ```

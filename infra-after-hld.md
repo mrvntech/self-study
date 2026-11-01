@@ -303,12 +303,12 @@ Security:    [duyệt IAM/firewall]  [CIS, quét]      [pentest]
 SRE:              [SLO chi tiết]  [alert, dashboard] [test alert, runbook]
 ```
 
-- **Môi trường dev phải có trước khi team dev cần.** Đây là các phụ thuộc D-xx trong `dependencies.md`, bên cung cấp là Platform.
+- **Môi trường dev phải có trước khi team dev cần.** Đây là các phụ thuộc D-xx trong `dependencies.md`, bên cung cấp là Infra.
 - **Golden path:** Helm chart chuẩn đã gắn probe, `ServiceMonitor`, `NetworkPolicy` mặc định, cấu hình log. Service dùng chart này thì mặc định tuân thủ hợp đồng monitoring và security.
 
 ## Liên hệ với Spec Kit
 
-- Các lớp hạ tầng tương ứng các enabler feature: `000-foundation` (L0–L3, L6), `010-observability` (L5 + bước 4a), `011-security-baseline` (L2, L4 + bước 4b).
+- Các lớp hạ tầng tương ứng các enabler feature: Foundation F-000 (L0–L3), Golden path F-001p (L6), Observability stack F-010 (L5), SLO và alert F-011 (SRE, bước 4a), Security baseline F-012 (Security), Hardening OS F-013 (L4), Backup và DR F-014. Cách `/project.breakdown` chia các việc này: xem [speckit-backlog.md](speckit-backlog.md).
 - AI viết Terraform, Ansible, rule, policy rất nhanh, nhưng **`terraform plan` phải được con người review**, và **AI không được quyền apply lên staging hoặc prod**. Ghi vào constitution.
 - Code hạ tầng do AI sinh phải qua Checkov/Conftest và có test (Terratest, Molecule, `promtool`) trước khi merge.
 

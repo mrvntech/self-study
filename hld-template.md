@@ -153,6 +153,15 @@ flowchart TB
 
 > Mỗi thành phần một mục con. Chỉ mô tả trách nhiệm và giao tiếp, không đi vào class.
 
+**Danh sách thành phần và team sở hữu** (bắt buộc; lệnh `/project.breakdown` dùng bảng này để chia feature business):
+
+| Thành phần | Bounded context | Team sở hữu | Tier |
+| --- | --- | --- | --- |
+| {auth-service} | {Identity} | {Team Identity} | {1} |
+| {order-service} | {Sales} | {Team Order} | {1} |
+| {payment-service} | {Payment} | {Team Payment} | {1} |
+| {notification-service} | {Notification} | {Team Notify} | {2} |
+
 ### 4.1 {Tên thành phần}
 
 | Thuộc tính | Mô tả |
@@ -163,7 +172,7 @@ flowchart TB
 | Dữ liệu sở hữu | {Bảng/collection chính} |
 | API cung cấp | {REST /api/v1/orders} |
 | Phụ thuộc | {payment-service (sync), Kafka (async)} |
-| Team sở hữu | {Team Order} |
+| Team sở hữu (bắt buộc, theo `team-map.md`) | {Team Order} |
 | Mức độ quan trọng | {Tier 1} |
 
 ### 4.2 {Tên thành phần}
@@ -254,6 +263,16 @@ sequenceDiagram
 
 ## 7. Security Design
 
+> **Team thực hiện** (bắt buộc; lệnh `/project.breakdown` dùng bảng này để chia việc). Tên team theo `team-map.md`.
+
+| Hạng mục | Team thực hiện | Team duyệt |
+| --- | --- | --- |
+| Chính sách bảo mật, threat model | {Security} | {Architect} |
+| AuthN/AuthZ trong ứng dụng | {Team Identity} | {Security} |
+| IAM, security group, KMS, secret manager | {Infra} | {Security} |
+| Hardening OS (CIS), `auditd` | {Infra} | {Security} |
+| WAF, SIEM, quét lỗ hổng, pentest | {Security} | {Architect} |
+
 ### 7.1 Threat model
 
 > Dùng STRIDE cho các luồng dữ liệu chính.
@@ -301,6 +320,16 @@ sequenceDiagram
 ---
 
 ## 8. Availability, Reliability và Disaster Recovery
+
+> **Team thực hiện** (bắt buộc).
+
+| Hạng mục | Team thực hiện | Team duyệt |
+| --- | --- | --- |
+| Dự phòng hạ tầng (multi-AZ, failover) | {Infra} | {SRE} |
+| Backup và replication DB | {DBA} | {Infra} |
+| Backup object storage, cấu hình hạ tầng | {Infra} | {SRE} |
+| Timeout, retry, circuit breaker trong ứng dụng | {Mỗi team dev} | {SRE} |
+| Diễn tập DR | {SRE} | {Architect} |
 
 ### 8.1 Mục tiêu
 
@@ -369,6 +398,15 @@ sequenceDiagram
 
 ## 10. Monitoring & Observability Design
 
+> **Team thực hiện** (bắt buộc).
+
+| Hạng mục | Team thực hiện | Team duyệt |
+| --- | --- | --- |
+| Dựng stack Prometheus/Loki/Tempo/Grafana/Alertmanager, agent | {Infra} | {SRE} |
+| SLO, recording rule, alert, dashboard, runbook | {SRE} cùng team sở hữu service | {Architect} |
+| Instrument code (metrics, log, trace, health check) | {Mỗi team dev} | {SRE} |
+| Audit log → SIEM | {Infra} | {Security} |
+
 > Xem mẫu chi tiết trong `monitoring-design-hld.md`. Tóm tắt các mục bắt buộc:
 
 - 10.1 Mục đích và phạm vi monitoring
@@ -384,6 +422,18 @@ sequenceDiagram
 ---
 
 ## 11. Deployment và Infrastructure
+
+> **Team thực hiện** (bắt buộc). Lớp L0–L6 theo thứ tự xây dựng hạ tầng.
+
+| Hạng mục | Lớp | Team thực hiện | Team duyệt |
+| --- | --- | --- | --- |
+| Account/project, IAM nền, state backend | L0 | {Infra} | {Security} |
+| Mạng, DNS, VPN/bastion | L1 | {Infra} | {Security} |
+| K8s cluster, VM, node pool | L3 | {Infra} | {Architect} |
+| Cụm DB, cache dùng chung | L3 | {Infra + DBA} | {Architect} |
+| Cấu hình OS (Ansible) | L4 | {Infra} | {Security} |
+| CI/CD pipeline, registry | — | {Infra} | {Tech Lead các team} |
+| Golden path: Helm chart chuẩn, ingress, cert-manager, External Secrets | L6 | {Infra} | {SRE, Security} |
 
 ### 11.1 Sơ đồ hạ tầng
 
@@ -510,6 +560,7 @@ flowchart LR
 - [ ] Mọi NFR trong SRS đều có mục thiết kế tương ứng (mục 16)
 - [ ] Sơ đồ bối cảnh và sơ đồ kiến trúc khớp với nhau
 - [ ] Mỗi thành phần có trách nhiệm rõ ràng và có team sở hữu
+- [ ] Mục 7, 8, 10, 11 có bảng "Team thực hiện", tên team khớp `team-map.md`
 - [ ] Không còn single point of failure chưa được xử lý
 - [ ] Đã có threat model và Security đã review
 - [ ] RPO/RTO được định nghĩa và có phương án backup/DR

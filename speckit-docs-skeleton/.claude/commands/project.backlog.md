@@ -24,7 +24,7 @@ Theo đúng mẫu trong `docs/delivery/backlog.example.json`:
   - `key`: `F-xxx`, `C-xx`, hoặc `F-xxx/Txxx` cho task.
   - `type`: `feature` | `enabler` | `contract` | `task`.
   - `title`: tiêu đề ngắn, không chứa key (script tự thêm `[key]`).
-  - `team`: tên viết thường, không dấu cách (ví dụ `order`, `platform`).
+  - `team`: tên viết thường, không dấu cách (ví dụ `order`, `infra`).
   - `milestone`: key của milestone, hoặc `null`.
   - `parent`: key của feature cha (cho task), hoặc `null`.
   - `blocked_by[]`: key của item phải xong trước.

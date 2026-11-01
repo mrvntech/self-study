@@ -122,7 +122,7 @@ Tầng 3 – Tính năng     specs/xxx/ (spec, plan, tasks) – Spec Kit
 ```
 
 1. **Một tính năng, một team.** `feature-map.md` có cột Team. Chia theo lát cắt dọc; tính năng buộc phải trải qua nhiều team thì tách thành nhiều spec (F-002a, F-002b) nối bằng contract trong `api-catalog.md`.
-2. **Việc không phải tính năng cũng là spec.** `000-foundation` (Platform), `0xx-observability` (SRE), `0xx-security-baseline` (Security). Việc thủ công (pentest, UAT, change ticket) để trong `release-plan.md`.
+2. **Việc không phải tính năng cũng là spec.** `000-foundation`, golden path, observability stack (Infra), SLO và alert (SRE), `0xx-security-baseline` (Security). Việc thủ công (pentest, UAT, change ticket) để trong `release-plan.md`.
 3. **Nhãn trong `tasks.md`:** `[Team: …]` bắt buộc; `[Needs: …]` và `[Provides: …]` khi task phụ thuộc hoặc phục vụ team khác.
 
    ```markdown
