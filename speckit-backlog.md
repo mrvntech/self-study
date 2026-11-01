@@ -1,17 +1,103 @@
 # Chia việc cho các team và tạo backlog với Spec Kit
 
 > Ghi chú tự học · Cập nhật: 2026-11-02
-> Liên quan: [speckit-big-picture.md](speckit-big-picture.md) · [speckit-vs-sdlc.md](speckit-vs-sdlc.md)
-> Hiện thực: [speckit-docs-skeleton/](speckit-docs-skeleton/) (lệnh `/project.breakdown`, `/project.backlog`, script `scripts/backlog-sync.sh`)
+> Liên quan: [discovery-phase0-guideline.md](discovery-phase0-guideline.md) · [speckit-big-picture.md](speckit-big-picture.md) · [speckit-vs-sdlc.md](speckit-vs-sdlc.md)
+> Hiện thực: [speckit-docs-skeleton/](speckit-docs-skeleton/) (lệnh `/project.discovery`, `/project.breakdown`, `/project.backlog`, script `scripts/backlog-sync.sh`)
 
 ## Vấn đề
 
-Spec Kit bắt đầu từ `/speckit.specify` cho **một tính năng**. Nó không có bước nào biến HLD thành **danh sách việc cho từng team** và **backlog** trên công cụ quản lý công việc. Lệnh Spec Kit thực chất là file prompt Markdown, nên ta tự thêm lệnh, chạy **sau HLD và trước `specify`**.
+Spec Kit bắt đầu từ `/speckit.specify` cho **một tính năng**. Nó không có bước nào để:
 
-## Quy trình
+1. **Tạo ra danh sách feature ban đầu** từ ý tưởng, mục tiêu và nhu cầu người dùng.
+2. Biến HLD thành **danh sách việc cho từng team** và **backlog** trên công cụ quản lý công việc.
+
+Lệnh Spec Kit thực chất là file prompt Markdown, nên ta tự thêm lệnh, chạy **trước `specify`**: `/project.discovery` cho việc (1), `/project.breakdown` và `/project.backlog` cho việc (2).
+
+## Giai đoạn 0: tạo feature ban đầu
+
+Feature ban đầu được tạo ở **Giai đoạn 0 (Discovery)**, trước mọi lệnh `/speckit.*`. Con người dẫn dắt qua workshop; AI hỗ trợ soạn nháp. Hướng dẫn chi tiết từng bước (đầu vào, định dạng, ai tham gia, đầu ra, checklist): [discovery-phase0-guideline.md](discovery-phase0-guideline.md).
+
+Feature được hình thành qua **hai lượt**:
+
+| Lượt | Khi nào | Trả lời | Công cụ |
+| --- | --- | --- | --- |
+| **Lượt 1** | Sau PRD (B6) | *Làm gì*: feature thô, gắn REQ và lát cắt release, chưa có team | Story map, `/project.discovery` |
+| **Lượt 2** | Sau HLD (B9) | *Ai làm, thứ tự nào*: tách theo team, thêm enabler, contract | `/project.breakdown` |
+
+### Chuỗi bước
+
+```
+Đầu vào I1–I8: đề bài, stakeholder, quy trình hiện tại, hệ thống hiện có, ràng buộc, số liệu
+        │
+        ▼
+B1 Kickoff → B2 Workshop mục tiêu → B3 Phỏng vấn người dùng, AS-IS
+        │      (business-context.md)   (as-is.md: điểm đau)
+        ▼
+B4 User story mapping ───────── hành trình → story → lát cắt MVP, v1.1   (story-map.md)
+        │
+        ▼
+B5 PRD, NFR, glossary ───────── REQ-xx, NFR-xxx                         (/project.discovery soạn nháp)
+        │
+        ▼
+B6 Feature map lượt 1 ───────── gom story/REQ thành feature thô          (/project.discovery soạn nháp)
+        │
+        ▼
+B7 Event storming ───────────── event, entity, bounded context           (domain-model.md)
+        │
+        ▼
+B8 HLD, ADR ─────────────────── thành phần, team sở hữu, mục xuyên suốt
+        │
+        ▼
+B9 Feature map lượt 2 ───────── /project.breakdown → team, enabler, contract, mốc
+        │
+        ▼
+B10 Cổng Ready for Spec Kit ─── checklist sản phẩm, hệ thống, điều phối
+```
+
+### Story map là nguồn chính sinh ra feature
+
+```
+Hoạt động:  Tìm sản phẩm    →  Đặt hàng        →  Thanh toán        →  Theo dõi đơn
+            ─────────────      ─────────────      ──────────────      ────────────
+MVP         Xem danh mục       Thêm vào giỏ       Thanh toán thẻ      Xem trạng thái
+            Tìm theo tên       Xác nhận đơn
+─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─
+v1.1        Lọc, gợi ý         Mã giảm giá        Ví điện tử          Thông báo
+```
+
+| Trong story map | Trở thành |
+| --- | --- |
+| Cột hoạt động | Một hoặc vài **feature** trong `feature-map.md` |
+| Story trong cột | **User story** trong `spec.md` khi chạy `/speckit.specify` |
+| Lát cắt ngang | **Mốc release** trong `release-plan.md` |
+
+### Từ lượt 1 sang lượt 2
+
+| Lượt 1 (sau PRD) | Lượt 2 (sau HLD) |
+| --- | --- |
+| F-002 Đặt hàng và thanh toán | F-002a (Team Order), F-002b (Team Payment), C-01 contract `order.created` |
+| *(không có)* | F-000 Foundation (Platform), F-010 Observability (SRE), F-011 Security baseline (Security) |
+
+### `/project.discovery`
+
+- **Đầu vào:** `docs/discovery/` (đầu vào I1–I8, biên bản workshop, business context, AS-IS, story map).
+- **Việc làm:** tìm chỗ thiếu (KPI không đo được, persona chưa xác nhận, điểm đau chưa có story, NFR thiếu số); soạn nháp story map, PRD, NFR, glossary, feature map lượt 1; thêm câu hỏi vào `open-questions.md`.
+- **Quy tắc:** không sửa file đã `Approved`; ghi `Draft (AI)`; không bịa số liệu, ngày, tên người; không đề xuất công nghệ.
+
+### Thứ tự hay bị làm ngược
+
+| Làm sai | Hậu quả |
+| --- | --- |
+| Chạy `/speckit.specify` ngay khi có ý tưởng | Feature không gắn mục tiêu, ranh giới lộn xộn, trùng lặp giữa các spec |
+| Chia feature theo tầng kỹ thuật ("Backend", "Database") | Không feature nào tự giao được giá trị; team phải chờ nhau |
+| Chia team trước khi có HLD | Ranh giới team lệch ranh giới hệ thống |
+| Bỏ qua enabler | Foundation, monitoring, security làm muộn, chặn các team dev |
+
+## Quy trình sau Giai đoạn 0
 
 ```mermaid
 flowchart TB
+    Z["Giai đoạn 0 (B1–B8)<br/>/project.discovery: feature map lượt 1"] --> A
     A[HLD + PRD + NFR + team-map đã duyệt] --> B["/project.breakdown<br/>AI đề xuất feature theo team,<br/>enabler, contract, phụ thuộc"]
     B --> C[Con người review qua PR<br/>PO, Architect, Tech Lead]
     C --> D[feature-map.md, dependencies.md,<br/>release-plan.md]
