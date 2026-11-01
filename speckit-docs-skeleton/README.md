@@ -66,6 +66,8 @@ docs/
 └── project.plan.md              # việc theo team, phụ thuộc, đường găng
 scripts/
 └── backlog-sync.sh              # backlog.json → GitHub Issues (mặc định chạy thử)
+examples/
+└── shopnow-breakdown.example.md # ví dụ output của /project.breakdown
 ```
 
 `backlog-sync.sh` cần `gh` (đã đăng nhập), `jq` và bash 4 trở lên. Script nhận diện issue bằng tiền tố `[KEY]` trong tiêu đề nên chạy lại không tạo trùng.
