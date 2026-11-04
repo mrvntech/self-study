@@ -1,0 +1,32 @@
+# Kiểm tra repo team còn khớp với project-docs (core constitution, submodule .project).
+# Repo project-docs private: tạo secret PROJECT_DOCS_TOKEN (fine-grained token, chỉ quyền đọc
+# Contents của project-docs) để checkout được submodule.
+name: project-docs-check
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  core:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+          token: ${{ secrets.PROJECT_DOCS_TOKEN || github.token }}
+
+      - name: Core constitution khớp .project/constitution/core.md
+        run: bash .project/scripts/check-core.sh
+
+      - name: Submodule .project có cũ hơn project-docs không (chỉ cảnh báo)
+        continue-on-error: true
+        env:
+          GIT_CONFIG_COUNT: 1
+          GIT_CONFIG_KEY_0: url.https://x-access-token:${{ secrets.PROJECT_DOCS_TOKEN || github.token }}@github.com/.insteadOf
+          GIT_CONFIG_VALUE_0: https://github.com/
+        run: bash .project/scripts/check-core.sh --stale
