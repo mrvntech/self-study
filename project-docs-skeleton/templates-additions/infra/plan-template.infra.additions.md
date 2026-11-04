@@ -13,7 +13,7 @@ Spec Kit sinh các file theo mẫu cho service; ở repo Infra dùng như sau:
 
 ## Well-Architected Check *(bắt buộc)*
 
-Mỗi trụ cột ghi cách plan đáp ứng và mã luật liên quan trong phần riêng của constitution. Luật `MUST` không đáp ứng được phải đề xuất ADR ngoại lệ và dừng chờ duyệt.
+Mỗi trụ cột ghi cách plan đáp ứng và mã luật liên quan trong profile infra của constitution. Luật `MUST` không đáp ứng được phải đề xuất ADR ngoại lệ và dừng chờ duyệt.
 
 | Trụ cột | Cách đáp ứng | Luật | Đạt? |
 | --- | --- | --- | --- |

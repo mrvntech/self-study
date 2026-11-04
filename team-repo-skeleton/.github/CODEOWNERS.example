@@ -1,0 +1,21 @@
+# CODEOWNERS ghi TEAM DUYỆT BẮT BUỘC cho từng đường dẫn, theo cột "Team duyệt" của repo
+# trong bảng "Danh sách repo" (.project/docs/delivery/team-map.md). Core constitution II-b.
+#
+# GitHub lấy dòng khớp CUỐI CÙNG, và chỉ cần MỘT owner trong dòng đó duyệt. Muốn bắt buộc
+# team chuyên trách duyệt thì dòng của đường dẫn đó chỉ ghi team chuyên trách.
+# Bật "Require review from Code Owners" trong branch protection của nhánh chính.
+
+# ---- Repo service (profile service) ----
+*                                  @{org}/{team-order}
+/migrations/                       @{org}/{dba}
+/observability/                    @{org}/{sre}
+/.github/workflows/                @{org}/{team-order} @{org}/{infra}
+/.specify/memory/constitution.md   @{org}/{team-order}
+
+# ---- Repo infra (profile infra + observability + security-policy) ----
+# *                                @{org}/{infra}
+# /terraform/live/*/30-database/   @{org}/{dba}
+# /terraform/modules/rds-*/        @{org}/{dba}
+# /observability/                  @{org}/{sre}
+# /k8s/observability/              @{org}/{sre}
+# /policies/                       @{org}/{security}

@@ -2,7 +2,9 @@
 
 **Dựa trên:** `project-docs@{sha}` (`git -C .project rev-parse --short HEAD`) · core constitution v{X.Y.Z}
 
-Constitution Check ở trên gồm cả luật `MUST` trong phần riêng của team (core II-c). Ghi mã luật khi có vi phạm hoặc ngoại lệ, ví dụ `INF-22`.
+Constitution Check ở trên gồm cả luật `MUST` trong các profile của repo (core II-c). Ghi mã luật khi có vi phạm hoặc ngoại lệ, ví dụ `INF-22`.
+
+**Đường dẫn sẽ sửa và team** (core II-b): {`src/order/` – Team Order; `migrations/` – Team Order, DBA duyệt; `observability/` – Team Order, SRE duyệt}
 
 ## Ảnh hưởng kiến trúc *(bắt buộc)*
 

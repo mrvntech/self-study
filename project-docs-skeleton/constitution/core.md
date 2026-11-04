@@ -26,16 +26,21 @@
 - Mỗi tính năng thuộc về đúng một team trong `.project/docs/delivery/team-map.md`.
 - Mỗi task trong `tasks.md` có nhãn `[Team: …]`; task cần hoặc cung cấp thứ cho team khác có thêm `[Needs: …]` hoặc `[Provides: …]`, dùng đúng tên trong `.project/docs/architecture/api-catalog.md`.
 - Không bắt đầu task có `Needs` khi phụ thuộc tương ứng trong `.project/docs/delivery/dependencies.md` chưa ở trạng thái `Contract approved`.
+- Mỗi repo có **một team giữ** và có thể có **team đóng góp theo đường dẫn**, theo bảng "Danh sách repo" trong `team-map.md`. Tính năng của team đóng góp được đặt `specs/` trong repo này (ví dụ tính năng SLO của SRE ở repo infra).
+- Task chỉ sửa file trong repo hiện tại. Việc cần làm ở repo khác là `[Needs: …]` trỏ tới tính năng của team giữ repo đó, không viết thành task ở đây.
+- Task của team X chỉ sửa đường dẫn mà X là team giữ repo, hoặc X được ghi là team đóng góp cho đường dẫn đó. Plan liệt kê các đường dẫn sẽ sửa.
+- `CODEOWNERS` của repo ghi **team duyệt bắt buộc** cho từng đường dẫn, theo cột "Team duyệt" của bảng "Danh sách repo" (ví dụ `migrations/` → DBA, `observability/` → SRE). Không sửa `CODEOWNERS` để né người duyệt.
 
-## II-c. Core và phần riêng của team
+## II-c. Core và profile
 
-- Phần sau marker `core:end` là nguyên tắc riêng của team sở hữu repo, khởi tạo từ `.project/constitution/team-parts/`.
-- Phần riêng chỉ được **thêm** luật hoặc **siết** luật của core, không được nới hay bỏ. Khi hai bên mâu thuẫn, core thắng.
-- Luật trong phần riêng có mã và mức:
+- Phần sau marker `core:end` gồm một hoặc nhiều **profile**, khởi tạo từ `.project/constitution/profiles/`. Profile chia theo **loại việc** có trong repo, không theo team: `service`, `infra`, `observability`, `security-policy`, `test`. Repo có nhiều loại việc thì ghép nhiều profile (ví dụ repo infra: `infra` + `observability` + `security-policy`).
+- Mỗi mục trong profile ghi **team giữ** mục đó. Sửa luật trong mục nào cần team giữ mục đó duyệt, kể cả khi team đó không giữ repo (ví dụ mục Migration DB trong profile `service` do DBA giữ).
+- Profile chỉ được **thêm** luật hoặc **siết** luật của core, không được nới hay bỏ. Khi hai bên mâu thuẫn, core thắng.
+- Luật trong profile có mã và mức:
   - `MUST`: kiểm trong Constitution Check của `/speckit-plan`; `/speckit-analyze` báo vi phạm là CRITICAL, như vi phạm core.
   - `SHOULD`: hướng dẫn; vi phạm phải ghi lý do trong `research.md`, `/speckit-analyze` báo mức MEDIUM.
-- Quyết định kỹ thuật (ngôn ngữ, framework, dịch vụ cloud, phiên bản công cụ) nằm ở ADR. Phần riêng trỏ tới ADR, không chép lại nội dung quyết định.
-- Luật trong phần riêng chạm tới trách nhiệm của team khác (theo bảng "Ranh giới trách nhiệm" trong `team-map.md`) phải có team đó duyệt.
+- Quyết định kỹ thuật (ngôn ngữ, framework, dịch vụ cloud, phiên bản công cụ) nằm ở ADR. Profile trỏ tới ADR, không chép lại nội dung quyết định.
+- Team không có code (ví dụ Security chỉ ra chính sách) không cần repo: tài liệu của họ nằm ở `project-docs`, luật của họ nằm trong mục profile họ giữ, hoạt động (pentest, diễn tập) đi qua ticket.
 
 ## III. Con người duyệt giữa các bước
 
