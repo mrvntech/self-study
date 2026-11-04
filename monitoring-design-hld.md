@@ -186,7 +186,7 @@ Chỉ alert khi có việc cần con người làm ngay; mọi alert phải có 
 
 ## X.7 Dashboard
 
-Dashboard được quản lý dưới dạng code ({Grafana JSON / Terraform}) trong repo {tên repo}, không tạo thủ công trên môi trường prod.
+Dashboard được quản lý dưới dạng code ({Grafana JSON / Terraform}), không tạo thủ công trên môi trường prod. Dashboard tổng quan và hạ tầng nằm ở `observability/dashboards/` trong repo infra (SRE giữ); dashboard chi tiết của từng service nằm ở `observability/dashboards/` trong repo của service đó (team dev giữ, SRE duyệt). Alert rule và runbook chia theo cùng cách.
 
 | Dashboard | Người dùng | Nội dung chính |
 | --- | --- | --- |
@@ -219,7 +219,9 @@ Dashboard được quản lý dưới dạng code ({Grafana JSON / Terraform}) t
 | Định nghĩa SLI/SLO | C | R/A | I | C | C | I |
 | Kiến trúc và công cụ | A | R | R | C | I | C |
 | Instrument code | C | C | I | R/A | I | I |
-| Alert rule, runbook, on-call | I | R/A | R | R | I | C |
+| Alert rule, runbook dùng chung (hạ tầng, tổng quan) | I | R/A | R | I | I | C |
+| Alert rule, runbook của từng service | I | C | I | R/A | I | I |
+| On-call | I | R/A | R | R | I | C |
 | Dashboard nghiệp vụ | C | C | I | R | A | I |
 | Security monitoring | C | C | C | I | I | R/A |
 

@@ -105,13 +105,28 @@ infra/
 ├── k8s/                         # Helm values / manifest theo GitOps (Argo CD, Flux)
 │   ├── platform/                # ingress, cert-manager, external-secrets, kyverno
 │   └── observability/           # prometheus, loki, tempo, grafana, alertmanager
-├── observability/
-│   ├── alerts/                  # PrometheusRule theo service
-│   ├── recording-rules/         # SLI/SLO
-│   ├── dashboards/              # Grafana JSON / Jsonnet
-│   └── runbooks/
-└── policies/                    # OPA/Conftest, Kyverno policy
+├── observability/               # SRE đóng góp, CODEOWNERS: SRE. Chỉ phần dùng chung
+│   ├── alerts/                  # alert hạ tầng (node, cluster, DB, queue), Watchdog
+│   ├── alertmanager/            # route theo team, inhibition, receiver
+│   ├── dashboards/              # tổng quan SLO, hạ tầng (Grafana JSON / Jsonnet)
+│   └── runbooks/                # runbook cho alert hạ tầng
+└── policies/                    # Security đóng góp, CODEOWNERS: Security. OPA/Conftest, Kyverno policy
 ```
+
+Recording rule SLI, alert, dashboard chi tiết và runbook **của từng service** không nằm ở đây mà ở `observability/` trong repo của service đó, triển khai cùng service qua golden path chart. Lý do: alert đi cùng code (thêm endpoint thì thêm alert trong cùng PR), team service on-call cho service của mình, và repo infra không thành nút thắt. SRE giữ chất lượng bằng cách là CODEOWNERS của `observability/` trong mọi repo service và cấp alert RED mặc định trong golden path.
+
+```
+order-service/
+├── src/ …
+├── migrations/                  # CODEOWNERS: DBA
+└── observability/               # CODEOWNERS: SRE
+    ├── recording-rules/         # SLI của service
+    ├── alerts/                  # burn rate, alert riêng của service
+    ├── dashboards/              # dashboard chi tiết của service
+    └── runbooks/
+```
+
+Bảng "Danh sách repo" trong `team-map.md` ghi repo nào do team nào giữ và team nào đóng góp vào đường dẫn nào; profile tương ứng trong constitution: `project-docs-skeleton/constitution/profiles/` (`infra`, `observability`, `security-policy`, `service`).
 
 ### Thành phần nền tảng
 
@@ -178,7 +193,7 @@ Infra không instrument code thay dev; họ đưa ra hợp đồng và golden pa
 ### SLO → recording rule → alert
 
 ```yaml
-# observability/alerts/order-service.yaml (rút gọn)
+# order-service: observability/alerts/order-slo.yaml (rút gọn)
 groups:
 - name: order-slo
   rules:
