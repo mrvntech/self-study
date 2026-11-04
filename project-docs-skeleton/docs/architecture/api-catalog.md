@@ -1,13 +1,13 @@
 # API & event catalog
 
-> Tầng 2 – Hệ thống. Mọi API và event giữa các service. `contracts/` trong mỗi `specs/xxx-…` là chi tiết; file này là danh mục tổng thể để phát hiện trùng lặp và phụ thuộc.
+> Tầng 2 – Hệ thống. Mọi API và event giữa các service. `contracts/` trong mỗi `<repo>:specs/F-xxx-…` là chi tiết; file này là danh mục tổng thể để phát hiện trùng lặp và phụ thuộc.
 
 ## API đồng bộ
 
 | API | Service cung cấp | Service gọi | Phiên bản | Contract | Tính năng |
 | --- | --- | --- | --- | --- | --- |
-| `POST /api/v1/orders` | {order-service} | {web, mobile} | v1 | `specs/00x-…/contracts/` | F-00x |
-| `GET /api/v1/users/{id}` | {auth-service} | {order-service} | v1 | `specs/000-foundation/contracts/` | F-000 |
+| `POST /api/v1/orders` | {order-service} | {web, mobile} | v1 | `{order-service}:specs/F-00x-…/contracts/` | F-00x |
+| `GET /api/v1/users/{id}` | {auth-service} | {order-service} | v1 | `{auth-service}:specs/F-001-…/contracts/` | F-001 |
 
 ## Event bất đồng bộ
 
@@ -22,8 +22,8 @@ Tài nguyên do Infra (hoặc team chuyên môn khác) cung cấp cho team khác
 
 | Tên | Loại | Team cung cấp | Team dùng | Công bố tại | Contract | Tính năng |
 | --- | --- | --- | --- | --- | --- | --- |
-| `rds-order-db` | {RDS PostgreSQL, Multi-AZ} | {Infra} | {Team Order} | `/{project}/{env}/order-db/` (SSM) | `infra-platform:specs/F-00x-…/contracts/` | F-00x |
-| `irsa-order-service` | {IAM role cho service account} | {Infra} | {Team Order} | `/{project}/{env}/order-service/role-arn` (SSM) | `infra-platform:specs/F-000-…/contracts/` | F-000 |
+| `rds-order-db` | {RDS PostgreSQL, Multi-AZ} | {Infra} | {Team Order} | `/{project}/{env}/order-db/` (SSM) | `{infra}:specs/F-00x-…/contracts/` | F-00x |
+| `irsa-order-service` | {IAM role cho service account} | {Infra} | {Team Order} | `/{project}/{env}/order-service/role-arn` (SSM) | `{infra}:specs/F-000-…/contracts/` | F-000 |
 
 ## Quy tắc
 

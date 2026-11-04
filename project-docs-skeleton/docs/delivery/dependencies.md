@@ -1,6 +1,6 @@
 # Phụ thuộc giữa các team
 
-> Tầng điều phối. Ghép từ nhãn `[Needs: …]` và `[Provides: …]` trong mọi `specs/*/tasks.md`. Lệnh `/project.plan` sinh bản nháp; Delivery Manager duyệt và theo dõi.
+> Tầng điều phối. Ghép từ nhãn `[Needs: …]` và `[Provides: …]` trong mọi `<repo>:specs/*/tasks.md` (đọc qua `workspace/`). Lệnh `/project.plan` sinh bản nháp; Delivery Manager duyệt và theo dõi.
 
 ## Bảng phụ thuộc
 

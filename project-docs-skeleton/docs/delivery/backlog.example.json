@@ -26,6 +26,7 @@
       "type": "enabler",
       "title": "Foundation: môi trường, CI/CD, auth",
       "team": "infra",
+      "repo": null,
       "milestone": "M0",
       "parent": null,
       "blocked_by": [],
@@ -37,10 +38,11 @@
       "type": "task",
       "title": "Tạo VPC và subnet cho dev, staging",
       "team": "infra",
+      "repo": "infra",
       "milestone": "M0",
       "parent": "F-000",
       "blocked_by": [],
-      "source": "specs/000-foundation/tasks.md#T001",
+      "source": "infra:specs/F-000-foundation/tasks.md#T001",
       "body": "Theo IP plan trong Infra LLD."
     },
     {
@@ -48,6 +50,7 @@
       "type": "enabler",
       "title": "Golden path: Helm chart chuẩn, ingress, cert-manager, External Secrets",
       "team": "infra",
+      "repo": null,
       "milestone": "M0",
       "parent": null,
       "blocked_by": [
@@ -61,6 +64,7 @@
       "type": "enabler",
       "title": "Observability stack: Prometheus, Loki, Tempo, Grafana, Alertmanager",
       "team": "infra",
+      "repo": null,
       "milestone": "M0",
       "parent": null,
       "blocked_by": [
@@ -74,6 +78,7 @@
       "type": "enabler",
       "title": "SLO, alert, dashboard, runbook",
       "team": "sre",
+      "repo": null,
       "milestone": "M1",
       "parent": null,
       "blocked_by": [
@@ -87,6 +92,7 @@
       "type": "enabler",
       "title": "Security baseline: SIEM, WAF, quét lỗ hổng",
       "team": "security",
+      "repo": null,
       "milestone": "M0",
       "parent": null,
       "blocked_by": [
@@ -100,6 +106,7 @@
       "type": "enabler",
       "title": "Hardening OS theo CIS (Ansible)",
       "team": "infra",
+      "repo": null,
       "milestone": "M0",
       "parent": null,
       "blocked_by": [
@@ -113,6 +120,7 @@
       "type": "enabler",
       "title": "Backup và DR",
       "team": "infra",
+      "repo": null,
       "milestone": "M1",
       "parent": null,
       "blocked_by": [
@@ -126,6 +134,7 @@
       "type": "contract",
       "title": "Contract event order.created v1",
       "team": "order",
+      "repo": null,
       "milestone": "M1",
       "parent": null,
       "blocked_by": [],
@@ -137,6 +146,7 @@
       "type": "feature",
       "title": "Đăng nhập",
       "team": "identity",
+      "repo": null,
       "milestone": "M1",
       "parent": null,
       "blocked_by": [
@@ -150,6 +160,7 @@
       "type": "feature",
       "title": "Thanh toán – phía đơn hàng",
       "team": "order",
+      "repo": null,
       "milestone": "M1",
       "parent": null,
       "blocked_by": [
@@ -165,6 +176,7 @@
       "type": "feature",
       "title": "Thanh toán – phía cổng thanh toán",
       "team": "payment",
+      "repo": null,
       "milestone": "M1",
       "parent": null,
       "blocked_by": [

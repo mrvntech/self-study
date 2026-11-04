@@ -9,7 +9,7 @@ Bạn đang lập kế hoạch điều phối **giữa các team**. Không sửa
 1. `docs/product/feature-map.md`: tính năng, team, phụ thuộc, release.
 2. `docs/delivery/team-map.md`, `docs/delivery/release-plan.md`, `docs/delivery/dependencies.md`.
 3. `docs/architecture/api-catalog.md`.
-4. Mọi `specs/*/tasks.md`: đọc các nhãn `[Team: …]`, `[Needs: …]`, `[Provides: …]`, `[P]` và trạng thái checkbox.
+4. Mọi `workspace/*/specs/*/tasks.md`: đọc các nhãn `[Team: …]`, `[Needs: …]`, `[Provides: …]`, `[Gate: human]`, `[P]` và trạng thái checkbox. Spec của mọi team nằm trong các repo team; đọc qua bản checkout trong `workspace/<repo>/` do `scripts/workspace-sync.sh` tạo (người dùng tự chạy trước; nếu `workspace/` trống hoặc thiếu repo có trong bảng "Danh sách repo" của `team-map.md` thì dừng và nhắc chạy script). Ghi đường dẫn dạng `<repo>:specs/…`.
 
 Phạm vi bổ sung từ người dùng (ví dụ một mốc release hoặc một team): $ARGUMENTS
 
@@ -25,7 +25,8 @@ Phạm vi bổ sung từ người dùng (ví dụ một mốc release hoặc m�
    - Phụ thuộc vòng.
    - So sánh với `dependencies.md`: phụ thuộc mới chưa ghi, phụ thuộc đã ghi nhưng không còn trong tasks.
 3. **Tiến độ**
-   - Tỷ lệ task đã xong theo team và theo tính năng.
+   - Tỷ lệ task đã xong theo team, theo repo và theo tính năng.
+   - Task `[Gate: human]` chưa tick đang giữ các task phía sau (thường là apply hạ tầng, diễn tập): liệt kê kèm người cần làm.
    - Bên cần đang bị chặn vì phụ thuộc chưa `Contract approved`.
 4. **Đường găng**
    - Chuỗi phụ thuộc dài nhất dẫn tới từng mốc trong `release-plan.md`.
@@ -42,4 +43,4 @@ Một báo cáo Markdown gồm:
 5. **Đường găng** cho từng mốc.
 6. **Cảnh báo và việc cần con người quyết định:** dời mốc, đổi thứ tự, chốt contract, thêm người.
 
-Chỉ dựa trên nội dung có trong file, ghi rõ đường dẫn và mã task. Không tự đoán ngày; ngày nào không có trong file thì ghi "chưa có".
+Chỉ dựa trên nội dung có trong file, ghi rõ đường dẫn (`<repo>:specs/…`) và mã task. Không tự đoán ngày; ngày nào không có trong file thì ghi "chưa có".
