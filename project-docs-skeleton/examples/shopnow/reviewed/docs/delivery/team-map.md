@@ -19,6 +19,21 @@ Trạng thái: Approved (giả lập cho ví dụ) · Cập nhật: 2026-11-02 �
 
 Mọi thành phần trong HLD mục 3 đều đã có đúng một team sở hữu. Không có thành phần ERP integration (ACL) riêng (ADR-0008).
 
+## Danh sách repo
+
+*(Bổ sung sau khi template có bảng này, giả lập cho ví dụ; chưa chạy lại `/project.teammap`.)* Mỗi team dev một repo chứa mọi thành phần của team. Platform giữ repo hạ tầng; Phòng ATTT đóng góp policy vào đó. Không có SRE, DBA riêng (Q-08): Hùng (Platform) duyệt observability và migration đến khi tuyển SRE. Phòng ATTT không có repo riêng.
+
+| Repo | Team giữ | Thành phần (HLD mục 3) | Team đóng góp: đường dẫn | Team duyệt: đường dẫn | Profile |
+| --- | --- | --- | --- | --- | --- |
+| `project-docs` | Architect, PO, PM {cần xác nhận} | Tài liệu tổng thể | Phòng ATTT: `docs/security/`, threat model HLD 6; Platform (SRE tạm): SLO HLD 9 | Architect: `docs/architecture/`; PO: `docs/product/`; PM: `docs/delivery/` | — |
+| `alpha` | Team Alpha | `sales-service`, `catalog-service`, `data-migration` | — | Platform: `migrations/`, `observability/` | `service` |
+| `beta` | Team Beta | `identity-service`, `payment-service`, `notification-service` | — | Platform: `migrations/`, `observability/` | `service` |
+| `gamma-web` | Team Gamma | `customer-web`, `cskh-web` | — | Platform: `observability/` | `service` (mục Frontend) |
+| `platform` | Platform | L0–L6, CI/CD GitLab, registry, golden path chart, API gateway, Kafka, CDN, cụm PostgreSQL dùng chung | Phòng ATTT: `policies/` | Phòng ATTT: `policies/`; Platform (SRE tạm): `observability/` | `infra` + `observability` + `security-policy` |
+| `qa-tests` | QA | Bộ E2E Playwright, kịch bản k6 | — | Platform: `load/` (ngưỡng, môi trường) | `test` |
+
+Profile `infra` trong skeleton viết cho AWS; ShopNow chạy K8s nội bộ (Terraform, Ansible, GitLab CI), nên Platform phải thay các luật AWS (KMS, SSM, SCP, GuardDuty) bằng công cụ tương ứng theo ADR-0014, ADR-0016 trước khi dùng. Repo dùng GitLab nên `CODEOWNERS` đặt ở gốc hoặc `.gitlab/`, bật "Code Owner approval" cho nhánh chính.
+
 ## Ranh giới trách nhiệm việc xuyên suốt
 
 Gộp từ các bảng "Team thực hiện" ở HLD mục 6–10 và `release-plan.md`. Mỗi việc một team thực hiện; các xung đột trước đây đã được giải quyết theo `open-questions.md`.

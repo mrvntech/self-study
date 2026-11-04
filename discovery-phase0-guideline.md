@@ -14,7 +14,7 @@ Giai đoạn 0 biến **ý tưởng và thông tin rời rạc** thành bộ tà
 | **Kết thúc khi** | Qua cổng **Ready for Spec Kit** (mục 7) |
 | **Thời lượng tham khảo** | 2–3 tuần cho dự án nhỏ, 4–8 tuần cho dự án vừa (ví dụ, tùy tổ chức) |
 | **Người dẫn dắt** | Product Owner (nội dung), Solution Architect (kỹ thuật), PM/Delivery (lịch, người) |
-| **Nơi lưu** | Repo dự án, thư mục `docs/` theo skeleton; mọi thay đổi qua Pull Request |
+| **Nơi lưu** | Repo tài liệu trung tâm `project-docs`, thư mục `docs/` theo `project-docs-skeleton`; mọi thay đổi qua Pull Request. Repo của từng team tạo ở cuối B9 |
 
 ```mermaid
 flowchart LR
@@ -51,7 +51,7 @@ flowchart LR
 | `docs/architecture/hld.md`, `adr/` | Kiến trúc, quyết định | Architect | B8 |
 | `docs/architecture/api-catalog.md` | API/event giữa các thành phần (mức đầu) | Architect, Tech Lead | B8 |
 | `docs/delivery/team-map.md`, `release-plan.md`, `dependencies.md` | Team, mốc, phụ thuộc | PM/Delivery, Architect | B9 |
-| `.specify/memory/constitution.md` | Nguyên tắc cho Spec Kit | Architect, Tech Lead | B9 |
+| `constitution/core.md`, `constitution/profiles/` | Nguyên tắc cho Spec Kit: core chung, profile theo loại việc; mỗi repo team ghép thành `.specify/memory/constitution.md` | Architect (core), Tech Lead và team giữ từng mục (profile) | B9 |
 | `docs/discovery/open-questions.md` | Câu hỏi còn mở, người trả lời, hạn | PM | Suốt giai đoạn |
 
 ## 3. Đầu vào cần chuẩn bị
@@ -90,7 +90,7 @@ Mỗi bước gồm: mục tiêu, người tham gia, đầu vào, cách làm, đ
 | **Người tham gia** | Sponsor, PO, PM/Delivery, Solution Architect, BA |
 | **Thời lượng** | Họp kickoff 1–2 giờ; thu thập 3–5 ngày |
 | **Đầu vào** | Quyết định đầu tư, đề bài sơ bộ |
-| **Cách làm** | Tạo repo theo skeleton; giao người thu thập I1–I8; vẽ bản đồ stakeholder (ảnh hưởng × quan tâm); lên lịch B2–B9 |
+| **Cách làm** | Tạo repo `project-docs` theo `project-docs-skeleton`; giao người thu thập I1–I8; vẽ bản đồ stakeholder (ảnh hưởng × quan tâm); lên lịch B2–B9 |
 | **Đầu ra** | `inputs/business-brief.md`, `inputs/stakeholders.md`, lịch workshop, `open-questions.md` ban đầu |
 | **AI hỗ trợ** | Tóm tắt tài liệu I7 thành Markdown; liệt kê thông tin còn thiếu so với danh sách I1–I8 |
 | **Xong khi** | Có I1, I2; đã hẹn lịch với stakeholder chính |
@@ -194,8 +194,8 @@ Mỗi bước gồm: mục tiêu, người tham gia, đầu vào, cách làm, đ
 | **Người tham gia** | PM/Delivery, Architect, PO, Engineering Manager, Tech Lead các team |
 | **Thời lượng** | 1–2 buổi |
 | **Đầu vào** | `feature-map.md` lượt 1, `hld.md`, I8 |
-| **Cách làm** | Chạy `/project.teammap` để soạn nháp `team-map.md`, chốt team và ranh giới; chạy `/project.breakdown`; review đề xuất, chỉnh ranh giới và ưu tiên; chốt mốc M0, M1, MVP; hoàn thiện constitution |
-| **Đầu ra** | `feature-map.md` lượt 2, `team-map.md`, `release-plan.md`, `dependencies.md`, `constitution.md` |
+| **Cách làm** | Chạy `/project.teammap` để soạn nháp `team-map.md`, chốt team, danh sách repo (team giữ, team đóng góp, team duyệt, profile) và ranh giới việc kèm nơi làm; chạy `/project.breakdown`; review đề xuất, chỉnh ranh giới và ưu tiên; chốt mốc M0, M1, MVP; chốt constitution core và profile; tạo repo team theo `team-repo-skeleton` |
+| **Đầu ra** | `feature-map.md` lượt 2, `team-map.md`, `release-plan.md`, `dependencies.md`, `constitution/` đã duyệt, các repo team |
 | **AI hỗ trợ** | `/project.teammap`, `/project.breakdown` |
 | **Xong khi** | Mọi feature có đúng một team; có F-000 và các enabler; mốc MVP có ngày |
 
@@ -263,7 +263,9 @@ Nguyên tắc:
 
 - [ ] Mọi feature có đúng một team; có F-000 và enabler cho security, monitoring, infra
 - [ ] Mốc MVP có ngày; phụ thuộc giữa các team đã liệt kê
-- [ ] Constitution đã có nguyên tắc dự án, trỏ tới `docs/`
+- [ ] Constitution core đã chốt; profile của từng loại repo đã chỉnh theo NFR, ADR
+- [ ] Mọi thành phần trong HLD thuộc một repo; mọi việc xuyên suốt có nơi làm
+- [ ] Repo team đã tạo, có submodule `.project/`, constitution qua `check-core.sh`, `CODEOWNERS` theo cột Team duyệt
 - [ ] `open-questions.md` không còn câu hỏi chặn MVP
 
 ## 8. Sai lầm thường gặp

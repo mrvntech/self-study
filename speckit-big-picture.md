@@ -1,8 +1,8 @@
 # Giữ cái nhìn tổng thể khi dùng Spec Kit
 
-> Ghi chú tự học · Cập nhật: 2026-11-02
+> Ghi chú tự học · Cập nhật: 2026-11-05
 > Liên quan: [speckit-vs-sdlc.md](speckit-vs-sdlc.md) · [sdlc.md](sdlc.md) · [hld-template.md](hld-template.md)
-> Bộ khung dùng ngay: [project-docs-skeleton/](project-docs-skeleton/)
+> Bộ khung dùng ngay: [project-docs-skeleton/](project-docs-skeleton/) (repo tài liệu trung tâm) · [team-repo-skeleton/](team-repo-skeleton/) (repo của từng team)
 
 ## Vấn đề
 
@@ -31,8 +31,8 @@ flowchart TB
         ADR[ADR]
     end
     subgraph L3[Tầng 3: Tính năng – Spec Kit]
-        F1[specs/001-…]
-        F2[specs/002-…]
+        F1[order-service:specs/F-002a-…]
+        F2[infra:specs/F-000-…]
     end
     CON[constitution.md]
     L1 --> L2 --> L3
@@ -49,28 +49,42 @@ flowchart TB
 
 ## Cấu trúc repo
 
+Mỗi team một repo; tầng 1, tầng 2 và tầng điều phối nằm ở một repo trung tâm `project-docs`. Repo team kéo `project-docs` về qua git submodule `.project/` (pin theo commit, nên mỗi plan biết mình viết theo bản HLD nào); `project-docs` đọc spec của mọi team qua `workspace/`.
+
 ```
-docs/
-├── product/
-│   ├── prd.md            # tầm nhìn, mục tiêu, persona, phạm vi, REQ-xx
-│   ├── feature-map.md    # F-xxx ↔ specs/NNN, phụ thuộc, trạng thái
-│   ├── nfr.md            # NFR-xxx dùng chung
-│   └── glossary.md       # thuật ngữ nghiệp vụ thống nhất
-└── architecture/
-    ├── hld.md
-    ├── domain-model.md   # entity, bounded context, ai sở hữu dữ liệu nào
-    ├── api-catalog.md    # mọi API/event giữa các service
-    └── adr/
-.specify/memory/constitution.md   # trỏ tới docs/
-specs/
-├── 000-foundation/       # auth, logging, monitoring, CI/CD
-├── 001-…/
-└── 002-…/
+project-docs/                     # Architect, PO, PM giữ
+├── docs/
+│   ├── product/
+│   │   ├── prd.md                # tầm nhìn, mục tiêu, persona, phạm vi, REQ-xx
+│   │   ├── feature-map.md        # F-xxx ↔ <repo>:specs/F-xxx-…, phụ thuộc, trạng thái
+│   │   ├── nfr.md                # NFR-xxx dùng chung
+│   │   └── glossary.md           # thuật ngữ nghiệp vụ thống nhất
+│   ├── architecture/
+│   │   ├── hld.md
+│   │   ├── domain-model.md       # entity, bounded context, ai sở hữu dữ liệu nào
+│   │   ├── api-catalog.md        # mọi API/event giữa các service, tài nguyên hạ tầng dùng chung
+│   │   └── adr/
+│   └── delivery/team-map.md      # team, danh sách repo, ranh giới việc + nơi làm
+├── constitution/                 # core.md + profiles/ (service, infra, observability, security-policy, test)
+├── templates-additions/
+└── workspace/                    # bản checkout repo team, chỉ đọc
+
+infra/                            # Infra giữ; SRE, Security, DBA đóng góp theo đường dẫn
+├── .project/ → project-docs
+├── .specify/memory/constitution.md   # core + profile infra, observability, security-policy
+└── specs/F-000-foundation/, F-011-…/ (tính năng của SRE), …
+
+order-service/                    # Team Order giữ; DBA duyệt migrations/, SRE duyệt observability/
+├── .project/ → project-docs
+├── .specify/memory/constitution.md   # core + profile service
+└── specs/F-002a-…/
 ```
+
+Một repo có một team giữ và có thể có team đóng góp theo đường dẫn; tính năng của team đóng góp đặt `specs/` trong repo đó. Task không bao giờ sửa repo khác: việc ở repo khác là `[Needs: …]`. Team không có code (ví dụ Security chỉ ra chính sách) không cần repo.
 
 ## Bắt AI dùng hai tầng trên
 
-1. **Constitution trỏ tới tài liệu tổng thể.** Đọc PRD, feature map, glossary, NFR trước khi specify; đọc HLD, domain model, API catalog, ADR trước khi plan. Muốn đi ngược HLD hoặc ADR thì phải đề xuất ADR mới.
+1. **Constitution trỏ tới tài liệu tổng thể** qua `.project/`. Đọc PRD, feature map, glossary, NFR trước khi specify; đọc HLD, domain model, API catalog, ADR trước khi plan. Muốn đi ngược HLD hoặc ADR thì phải đề xuất ADR mới. Phần core giống nhau ở mọi repo; phần profile theo loại việc của repo.
 2. **Sửa template của Spec Kit** (thường nằm trong `.specify/templates/`):
    - `spec-template.md`: thêm mục **Liên kết tổng thể** (F-xxx, REQ-xx, phụ thuộc, NFR áp dụng).
    - `plan-template.md`: thêm mục **Ảnh hưởng kiến trúc** (entity, API/event mới, cần ADR không, mục HLD cần sửa).
@@ -80,10 +94,10 @@ specs/
 
 ```
 Giai đoạn 0 – Discovery (con người, một lần)
-  PRD → feature map → NFR → HLD v1 → domain model → constitution
+  PRD → feature map → NFR → HLD v1 → domain model → team map, danh sách repo → constitution core + profile
                               │
 Giai đoạn 1 – Foundation (Spec Kit)
-  specs/000-foundation: auth, logging, monitoring, CI/CD
+  infra:specs/F-000-foundation: account, mạng, K8s, CI/CD, monitoring
                               │
 Giai đoạn 2 – Lặp lại theo feature map
   specify → clarify → plan → tasks → implement → đồng bộ tài liệu tổng thể
@@ -96,8 +110,8 @@ Giai đoạn 2 – Lặp lại theo feature map
 
 ## Kiểm tra chéo giữa các tính năng
 
-- **Lệnh tự viết**, ví dụ `/project.review` (lệnh Spec Kit thực chất là file prompt Markdown). Lệnh này đọc mọi `specs/*/spec.md` và `plan.md`, đối chiếu với `docs/` để tìm entity/API trùng, thuật ngữ lệch glossary, NFR chưa có tính năng nào đáp ứng, REQ chưa có tính năng nào nhận.
-- **Kiểm tra trong CI:** mọi spec phải có mã F-xxx và REQ-xx hợp lệ.
+- **Lệnh tự viết**, ví dụ `/project.review` (lệnh Spec Kit thực chất là file prompt Markdown), chạy trong `project-docs` sau `scripts/workspace-sync.sh`. Lệnh này đọc mọi `workspace/*/specs/*/spec.md` và `plan.md`, đối chiếu với `docs/` để tìm entity/API trùng, thuật ngữ lệch glossary, NFR chưa có tính năng nào đáp ứng, REQ chưa có tính năng nào nhận.
+- **Kiểm tra trong CI** của repo team: đoạn core trong constitution khớp `.project/` (`check-core.sh`); mọi spec phải có mã F-xxx và REQ-xx hợp lệ.
 - **Architecture review do con người làm** định kỳ: AI tìm vấn đề, Architect quyết định.
 
 ## Phân việc cho nhiều team: tầng điều phối

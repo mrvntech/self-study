@@ -10,7 +10,7 @@ ShopNow thay website bán hàng cũ bằng nền tảng bán đồ gia dụng on
 | --- | --- |
 | [input/](input/) | Trạng thái sau B7: chỉ các file khác mẫu skeleton. Mọi file đều `Approved` |
 | [output/](output/) | File do `/project.hld` rồi `/project.teammap` sinh ra hoặc sửa (`Draft (AI)`). Link tương đối trong các file này tính theo cây `docs/` của một dự án |
-| [reviewed/](reviewed/) | Sau **review giả lập**: câu trả lời cho các câu hỏi chặn chia việc, HLD, team-map, release-plan đã `Approved`. Đây là đầu vào của `/project.breakdown` |
+| [reviewed/](reviewed/) | Sau **review giả lập**: câu trả lời cho các câu hỏi chặn chia việc, HLD, team-map, release-plan đã `Approved`. Đây là đầu vào của `/project.breakdown`. Bảng "Danh sách repo" trong team-map được thêm tay sau, khi template có bảng này |
 | [../shopnow-hld.example.md](../shopnow-hld.example.md) | Báo cáo trong chat của `/project.hld` |
 | [../shopnow-teammap.example.md](../shopnow-teammap.example.md) | Báo cáo trong chat của `/project.teammap` |
 | [../shopnow-breakdown.example.md](../shopnow-breakdown.example.md) | Báo cáo của `/project.breakdown` (lệnh không sửa file) |
@@ -38,13 +38,15 @@ Bước review trong thực tế do con người làm qua PR. Ở ví dụ này,
 | Ngân sách chưa có | `constraints.md` | Quan trọng | — |
 | ERP chậm (p95 ~2 s), `order.shipped` đến từ ERP | `current-systems.md`, `event-storming.md` | Quan trọng, ADR-0008 | Ai sở hữu ACL ERP |
 
+`output/` và các báo cáo `*.example.md` được tạo trước khi template có bảng "Danh sách repo", cột "Nơi làm" và constitution core + profile, nên không có các phần đó; chạy lại `/project.teammap` sẽ sinh thêm.
+
 Kết quả có thể khác đôi chút giữa các lần chạy (số câu hỏi, số ADR, cách đặt tên thành phần), nhưng các lỗ hổng trên nên được phát hiện mỗi lần.
 
 ## Chạy lại
 
 ```bash
-specify init shopnow && cd shopnow                      # hoặc một thư mục trống
-cp -r <self-study>/project-docs-skeleton/. .            # skeleton (kể cả .claude/, .specify/)
+mkdir shopnow-docs && cd shopnow-docs                  # repo project-docs của ShopNow, không cần specify init
+cp -r <self-study>/project-docs-skeleton/. .            # skeleton (kể cả .claude/, .gitignore)
 rm -rf examples
 cp -r <self-study>/project-docs-skeleton/examples/shopnow/input/docs/. docs/
 git init && git add -A && git commit -m "ShopNow sau B7"
