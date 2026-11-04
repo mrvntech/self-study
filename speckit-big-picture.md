@@ -2,7 +2,7 @@
 
 > Ghi chú tự học · Cập nhật: 2026-11-02
 > Liên quan: [speckit-vs-sdlc.md](speckit-vs-sdlc.md) · [sdlc.md](sdlc.md) · [hld-template.md](hld-template.md)
-> Bộ khung dùng ngay: [speckit-docs-skeleton/](speckit-docs-skeleton/)
+> Bộ khung dùng ngay: [project-docs-skeleton/](project-docs-skeleton/)
 
 ## Vấn đề
 

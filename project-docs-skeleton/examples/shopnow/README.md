@@ -44,9 +44,9 @@ Kết quả có thể khác đôi chút giữa các lần chạy (số câu hỏ
 
 ```bash
 specify init shopnow && cd shopnow                      # hoặc một thư mục trống
-cp -r <self-study>/speckit-docs-skeleton/. .            # skeleton (kể cả .claude/, .specify/)
+cp -r <self-study>/project-docs-skeleton/. .            # skeleton (kể cả .claude/, .specify/)
 rm -rf examples
-cp -r <self-study>/speckit-docs-skeleton/examples/shopnow/input/docs/. docs/
+cp -r <self-study>/project-docs-skeleton/examples/shopnow/input/docs/. docs/
 git init && git add -A && git commit -m "ShopNow sau B7"
 
 claude -p "/project.hld"          # hoặc chạy /project.hld trong phiên Claude Code
@@ -54,6 +54,6 @@ git diff                          # so với output/
 claude -p "/project.teammap"
 
 # Bỏ qua review: dùng luôn các file đã duyệt giả lập
-cp -r <self-study>/speckit-docs-skeleton/examples/shopnow/reviewed/docs/. docs/
+cp -r <self-study>/project-docs-skeleton/examples/shopnow/reviewed/docs/. docs/
 claude -p "/project.breakdown"
 ```

@@ -2,7 +2,7 @@
 
 > Ghi chú tự học · Cập nhật: 2026-11-02
 > Liên quan: [discovery-phase0-guideline.md](discovery-phase0-guideline.md) · [speckit-big-picture.md](speckit-big-picture.md) · [speckit-vs-sdlc.md](speckit-vs-sdlc.md)
-> Hiện thực: [speckit-docs-skeleton/](speckit-docs-skeleton/) (lệnh `/project.discovery`, `/project.hld`, `/project.teammap`, `/project.breakdown`, `/project.backlog`, script `scripts/backlog-sync.sh`)
+> Hiện thực: [project-docs-skeleton/](project-docs-skeleton/) (lệnh `/project.discovery`, `/project.hld`, `/project.teammap`, `/project.breakdown`, `/project.backlog`, script `scripts/backlog-sync.sh`)
 > Tên lệnh Spec Kit theo bản 1.2.6 cài cho Claude Code dưới dạng skill (`/speckit-specify`). Bản cũ dùng dấu chấm (`/speckit.specify`).
 
 ## Vấn đề
@@ -173,7 +173,7 @@ scripts/backlog-sync.sh --apply
 /speckit-implement
 ```
 
-Ví dụ chạy thật `/project.hld`, `/project.teammap`, `/project.breakdown` trên dự án mẫu: [speckit-docs-skeleton/examples/shopnow/](speckit-docs-skeleton/examples/shopnow/).
+Ví dụ chạy thật `/project.hld`, `/project.teammap`, `/project.breakdown` trên dự án mẫu: [project-docs-skeleton/examples/shopnow/](project-docs-skeleton/examples/shopnow/).
 
 ## Lệnh Spec Kit nối với tầng dự án
 
@@ -257,7 +257,7 @@ Ví dụ kết quả:
 | F-014 | Backup và DR | Enabler | — | Infra | F-000 |
 | F-002a | Thanh toán – phía đơn hàng | Business | — | Order | F-001p, C-01 |
 
-Ví dụ đầy đủ một báo cáo của lệnh (dự án mẫu ShopNow): [speckit-docs-skeleton/examples/shopnow-breakdown.example.md](speckit-docs-skeleton/examples/shopnow-breakdown.example.md).
+Ví dụ đầy đủ một báo cáo của lệnh (dự án mẫu ShopNow): [project-docs-skeleton/examples/shopnow-breakdown.example.md](project-docs-skeleton/examples/shopnow-breakdown.example.md).
 
 **Việc hạ tầng phát sinh sau** (team cần DB, queue mới khi `/speckit-plan`): ghi trong mục "Ảnh hưởng kiến trúc" của `plan.md`, task có nhãn `[Needs: infra/…]`; `/project.plan` cảnh báo khi chưa có `Provides`; Delivery Manager tạo feature mới cho Infra.
 

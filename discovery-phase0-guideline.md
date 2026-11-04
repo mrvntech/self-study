@@ -2,7 +2,7 @@
 
 > Ghi chú tự học · Cập nhật: 2026-11-02
 > Liên quan: [speckit-backlog.md](speckit-backlog.md) · [speckit-big-picture.md](speckit-big-picture.md) · [sdlc.md](sdlc.md)
-> Template dùng ngay: [speckit-docs-skeleton/docs/discovery/](speckit-docs-skeleton/docs/discovery/)
+> Template dùng ngay: [project-docs-skeleton/docs/discovery/](project-docs-skeleton/docs/discovery/)
 
 Giai đoạn 0 biến **ý tưởng và thông tin rời rạc** thành bộ tài liệu đủ để các team bắt đầu chạy `/speckit.specify`: PRD, NFR, feature map, HLD, team map, release plan. Con người dẫn dắt; AI hỗ trợ soạn nháp, tóm tắt và phát hiện chỗ thiếu.
 
