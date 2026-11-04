@@ -40,6 +40,7 @@
 ## III. Con người duyệt giữa các bước
 
 - Không chạy `/speckit-implement` khi spec, plan và tasks chưa được con người duyệt.
+- `/speckit-implement` dừng ở task có nhãn `[Gate: human]`, báo lại cho người dùng và không làm task đó hay các task phía sau phụ thuộc vào nó.
 - Chia việc (`/project.breakdown`) và backlog (`/project.backlog`) chỉ là bản đề xuất; con người duyệt trước khi ghi vào `docs/`.
 - AI không tự chạy các thao tác ghi ra hệ thống bên ngoài: push, mở hoặc merge PR, `scripts/backlog-sync.sh --apply`, tạo/sửa issue, `terraform apply` lên bất kỳ môi trường nào ngoài môi trường sandbox cá nhân. Người dùng tự chạy sau khi xem lại.
 
