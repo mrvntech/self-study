@@ -16,6 +16,15 @@
 | `order.created` | {order-service} | {payment-service, notification-service} | {link} | F-00x |
 | `payment.succeeded` | {payment-service} | {order-service} | {link} | F-00x |
 
+## Tài nguyên hạ tầng
+
+Tài nguyên do Infra (hoặc team chuyên môn khác) cung cấp cho team khác dùng. Cột Tên là tên dùng trong `[Provides: …]`, `[Needs: …]`.
+
+| Tên | Loại | Team cung cấp | Team dùng | Công bố tại | Contract | Tính năng |
+| --- | --- | --- | --- | --- | --- | --- |
+| `rds-order-db` | {RDS PostgreSQL, Multi-AZ} | {Infra} | {Team Order} | `/{project}/{env}/order-db/` (SSM) | `infra-platform:specs/F-00x-…/contracts/` | F-00x |
+| `irsa-order-service` | {IAM role cho service account} | {Infra} | {Team Order} | `/{project}/{env}/order-service/role-arn` (SSM) | `infra-platform:specs/F-000-…/contracts/` | F-000 |
+
 ## Quy tắc
 
 - Không tạo API hoặc event mới trùng chức năng với dòng đã có.
