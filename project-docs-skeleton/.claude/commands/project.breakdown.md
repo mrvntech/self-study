@@ -55,7 +55,8 @@ Dùng **bảng "Team thực hiện" trong HLD** và **`team-map.md`** trước. 
 | Availability/DR | Backup và replication DB | DBA (+ Infra) | Backup & DR (tách nếu khác team) |
 | Scalability | Auto-scaling, cache dùng chung, CDN | Infra | Scaling |
 | Monitoring | Dựng stack Prometheus/Loki/Tempo/Grafana/Alertmanager, agent (L5) | Infra | Observability stack |
-| Monitoring | SLO, recording rule, alert, dashboard, runbook, on-call | SRE (+ team sở hữu service) | SLO & alerting |
+| Monitoring | Định nghĩa SLO; alert hạ tầng, dashboard tổng quan, Alertmanager, alert mặc định của golden path; on-call | SRE | SLO & alerting |
+| Monitoring | Recording rule, alert, dashboard, runbook của từng service | Team sở hữu service (+ SRE duyệt), trong feature business của service | Không tạo enabler riêng |
 | Monitoring | Instrument code (metrics, log, trace, health check) | Mỗi team dev, trong feature business của mình | Không tạo enabler riêng |
 | Dữ liệu | Cụm DB dùng chung, chuẩn schema, migration tooling | DBA | Data platform |
 | Testing | Test E2E dùng chung, môi trường test, dữ liệu test | QA | Test platform |

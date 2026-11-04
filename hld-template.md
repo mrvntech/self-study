@@ -403,7 +403,9 @@ sequenceDiagram
 | Hạng mục | Team thực hiện | Team duyệt |
 | --- | --- | --- |
 | Dựng stack Prometheus/Loki/Tempo/Grafana/Alertmanager, agent | {Infra} | {SRE} |
-| SLO, recording rule, alert, dashboard, runbook | {SRE} cùng team sở hữu service | {Architect} |
+| Định nghĩa SLO, error budget | {SRE} cùng team sở hữu service | {Architect} |
+| Recording rule, alert, dashboard, runbook của từng service (trong repo service) | {Team sở hữu service} | {SRE} |
+| Alert hạ tầng, dashboard tổng quan, Alertmanager (trong repo infra) | {SRE} | {Infra} |
 | Instrument code (metrics, log, trace, health check) | {Mỗi team dev} | {SRE} |
 | Audit log → SIEM | {Infra} | {Security} |
 

@@ -1,5 +1,5 @@
 ---
-description: Giai đoạn 0, đầu bước B9. Từ HLD và thông tin nguồn lực (I8), soạn nháp team-map.md: thành phần mỗi team sở hữu, ranh giới việc xuyên suốt, vai trò, RACI; báo thành phần chưa có team và team thiếu người hoặc kỹ năng. Không ghi đè file đã Approved.
+description: Giai đoạn 0, đầu bước B9. Từ HLD và thông tin nguồn lực (I8), soạn nháp team-map.md: thành phần mỗi team sở hữu, danh sách repo, ranh giới việc xuyên suốt và nơi làm, vai trò, RACI; báo thành phần chưa có team và team thiếu người hoặc kỹ năng. Không ghi đè file đã Approved.
 ---
 
 Bạn hỗ trợ PM/Delivery và Architect ở **đầu bước B9**, trước khi chạy `/project.breakdown`. Bạn **soạn nháp** `docs/delivery/team-map.md`; con người quyết định ai làm gì.
@@ -23,9 +23,11 @@ Phạm vi hoặc ràng buộc từ người dùng (ví dụ số team tối đa,
    - Team trong I8 không sở hữu thành phần nào.
    - Team sở hữu quá nhiều thành phần Tier 1, hoặc thiếu kỹ năng cho thành phần được giao (theo I8).
    - Team chuyên trách (Infra, SRE, Security, DBA, QA) không có trong I8 nhưng HLD cần.
+   - Thành phần chưa thuộc repo nào; việc xuyên suốt chưa có Nơi làm, hoặc Nơi làm là repo mà team thực hiện không giữ và không được ghi là team đóng góp.
 2. **Soạn nháp `team-map.md`** theo đúng các mục của template:
    - **Danh sách team:** thành phần sở hữu ghi **cụ thể** (tên service, lớp hạ tầng L0–L6, công cụ), không ghi chung "hạ tầng", "backend". Tech Lead và kênh liên lạc lấy từ I8, thiếu thì `{cần xác nhận}`. Cột "Tính năng đang làm" để `—` (chưa chia việc).
-   - **Ranh giới trách nhiệm việc xuyên suốt:** gộp từ các bảng "Team thực hiện" trong HLD; mỗi việc một team thực hiện, có team duyệt. Hai mục HLD ghi khác nhau cho cùng một việc thì nêu xung đột, không tự chọn.
+   - **Danh sách repo:** mỗi repo một team giữ; thành phần trong HLD mục 4 nằm trong đúng một repo. Mặc định mỗi team dev một repo, Infra giữ repo infra; SRE, Security, DBA đóng góp theo đường dẫn (`observability/`, `policies/`, đường dẫn DB, `migrations/`) thay vì có repo riêng, trừ khi I8 hoặc người dùng nói khác. Team không có code thì không có repo. Ghi profile theo loại việc trong repo (`constitution/profiles/`).
+   - **Ranh giới trách nhiệm việc xuyên suốt:** gộp từ các bảng "Team thực hiện" trong HLD; mỗi việc một team thực hiện, có team duyệt và **Nơi làm** (`repo:đường-dẫn`, `project-docs:file` hoặc `hoạt động`). Nơi làm phải khớp bảng "Danh sách repo": team thực hiện là team giữ repo hoặc team đóng góp cho đường dẫn đó. Hai mục HLD ghi khác nhau cho cùng một việc thì nêu xung đột, không tự chọn.
    - **Vai trò dùng chung** và **RACI theo loại việc:** điền theo I8; không tự gán người.
 3. **Cập nhật `open-questions.md`:** thêm câu hỏi mới, không xóa câu hỏi của người khác.
 
