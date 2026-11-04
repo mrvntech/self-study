@@ -272,6 +272,9 @@ sequenceDiagram
 | IAM, security group, KMS, secret manager | {Infra} | {Security} |
 | Hardening OS (CIS), `auditd` | {Infra} | {Security} |
 | WAF, SIEM, quét lỗ hổng, pentest | {Security} | {Architect} |
+| Yêu cầu guardrail cấp organization (SCP) | {Security} | {Architect} |
+| Hiện thực SCP, baseline GuardDuty, Config, CloudTrail | {Infra} | {Security} |
+| Phân loại finding, dẫn dắt xử lý sự cố bảo mật | {Security} | {Infra} |
 
 ### 7.1 Threat model
 
@@ -405,7 +408,8 @@ sequenceDiagram
 | Dựng stack Prometheus/Loki/Tempo/Grafana/Alertmanager, agent | {Infra} | {SRE} |
 | Định nghĩa SLO, error budget | {SRE} cùng team sở hữu service | {Architect} |
 | Recording rule, alert, dashboard, runbook của từng service (trong repo service) | {Team sở hữu service} | {SRE} |
-| Alert hạ tầng, dashboard tổng quan, Alertmanager (trong repo infra) | {SRE} | {Infra} |
+| Alert, dashboard, runbook của thành phần hạ tầng (trong repo infra) | {Infra} | {SRE} |
+| Chuẩn alert, Alertmanager, dashboard tổng quan SLO, template alert của golden path (trong repo infra) | {SRE} | {Infra} |
 | Instrument code (metrics, log, trace, health check) | {Mỗi team dev} | {SRE} |
 | Audit log → SIEM | {Infra} | {Security} |
 

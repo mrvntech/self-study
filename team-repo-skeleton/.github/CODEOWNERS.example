@@ -16,6 +16,6 @@
 # *                                @{org}/{infra}
 # /terraform/live/*/30-database/   @{org}/{dba}
 # /terraform/modules/rds-*/        @{org}/{dba}
-# /observability/                  @{org}/{sre}
+# /observability/                  @{org}/{sre}    # Infra viết alert hạ tầng, SRE viết phần dùng chung; SRE duyệt cả hai
 # /k8s/observability/              @{org}/{sre}
 # /policies/                       @{org}/{security}

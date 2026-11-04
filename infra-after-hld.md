@@ -105,15 +105,20 @@ infra/
 ├── k8s/                         # Helm values / manifest theo GitOps (Argo CD, Flux)
 │   ├── platform/                # ingress, cert-manager, external-secrets, kyverno
 │   └── observability/           # prometheus, loki, tempo, grafana, alertmanager
-├── observability/               # SRE đóng góp, CODEOWNERS: SRE. Chỉ phần dùng chung
-│   ├── alerts/                  # alert hạ tầng (node, cluster, DB, queue), Watchdog
-│   ├── alertmanager/            # route theo team, inhibition, receiver
-│   ├── dashboards/              # tổng quan SLO, hạ tầng (Grafana JSON / Jsonnet)
-│   └── runbooks/                # runbook cho alert hạ tầng
+├── observability/               # CODEOWNERS: SRE duyệt. Chỉ phần hạ tầng và dùng chung
+│   ├── alerts/                  # Infra viết: alert thành phần hạ tầng (node, cluster, DB, queue), Watchdog
+│   ├── dashboards/
+│   │   ├── infra/               # Infra viết: dashboard hạ tầng
+│   │   └── overview/            # SRE viết: tổng quan SLO, error budget
+│   ├── runbooks/                # Infra viết: runbook cho alert hạ tầng
+│   ├── alertmanager/            # SRE viết: route theo team, inhibition, receiver
+│   └── golden-path/             # SRE viết: template alert RED, recording rule burn rate cho mọi service
 └── policies/                    # Security đóng góp, CODEOWNERS: Security. OPA/Conftest, Kyverno policy
 ```
 
-Recording rule SLI, alert, dashboard chi tiết và runbook **của từng service** không nằm ở đây mà ở `observability/` trong repo của service đó, triển khai cùng service qua golden path chart. Lý do: alert đi cùng code (thêm endpoint thì thêm alert trong cùng PR), team service on-call cho service của mình, và repo infra không thành nút thắt. SRE giữ chất lượng bằng cách là CODEOWNERS của `observability/` trong mọi repo service và cấp alert RED mặc định trong golden path.
+Nguyên tắc: **team sở hữu thành phần viết alert, dashboard, runbook của thành phần đó; SRE đặt chuẩn, viết phần dùng chung và duyệt.** Infra sở hữu thành phần hạ tầng nên viết alert hạ tầng; Infra cũng dựng và vận hành stack monitoring (nền tảng), còn SRE quyết định đo gì và khi nào gọi người.
+
+Recording rule SLI, alert, dashboard chi tiết và runbook **của từng service** không nằm ở đây mà ở `observability/` trong repo của service đó, triển khai cùng service qua golden path chart. Lý do: alert đi cùng code (thêm endpoint thì thêm alert trong cùng PR), team service on-call cho service của mình, và repo infra không thành nút thắt. SRE giữ chất lượng bằng cách là CODEOWNERS của `observability/` trong mọi repo (kể cả repo infra) và cấp alert RED mặc định trong golden path.
 
 ```
 order-service/

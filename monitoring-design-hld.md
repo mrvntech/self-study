@@ -219,7 +219,8 @@ Dashboard được quản lý dưới dạng code ({Grafana JSON / Terraform}), 
 | Định nghĩa SLI/SLO | C | R/A | I | C | C | I |
 | Kiến trúc và công cụ | A | R | R | C | I | C |
 | Instrument code | C | C | I | R/A | I | I |
-| Alert rule, runbook dùng chung (hạ tầng, tổng quan) | I | R/A | R | I | I | C |
+| Alert rule, runbook của thành phần hạ tầng | I | C | R/A | I | I | I |
+| Chuẩn alert, Alertmanager, dashboard tổng quan | I | R/A | C | I | I | I |
 | Alert rule, runbook của từng service | I | C | I | R/A | I | I |
 | On-call | I | R/A | R | R | I | C |
 | Dashboard nghiệp vụ | C | C | I | R | A | I |

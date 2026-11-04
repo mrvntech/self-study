@@ -32,6 +32,8 @@
 - **INF-22 (MUST)** Không có S3 bucket, DB, snapshot công khai. Security group không mở inbound `0.0.0.0/0` trừ load balancer cổng 443.
 - **INF-23 (MUST)** Secret nằm trong `{Secrets Manager / SSM SecureString}`, không nằm trong code, biến Terraform hay output.
 - **INF-24 (MUST)** Giữ baseline của Security trên mọi account: CloudTrail, GuardDuty, Config, chặn truy cập root. Không tắt qua Terraform của stack ứng dụng.
+- **INF-25 (MUST)** Guardrail cấp organization (SCP: region được dùng, dịch vụ bị cấm, không tắt CloudTrail) hiện thực ở `terraform/live/global/` đúng theo yêu cầu Security ghi trong `.project/docs/{security/}`; Infra không tự nới SCP.
+- **INF-26 (MUST)** Finding của GuardDuty, Security Hub chuyển tới Security để phân loại; Infra không tự đóng finding, chỉ thực hiện bước xử lý Security yêu cầu.
 
 ### Reliability · *Infra giữ, SRE duyệt*
 

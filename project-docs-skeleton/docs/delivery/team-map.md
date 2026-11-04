@@ -8,8 +8,8 @@ Ghi thành phần sở hữu **cụ thể**. Ví dụ "Infra: hạ tầng" là q
 
 | Team | Tech Lead | Thành phần sở hữu | Tính năng đang làm | Kênh liên lạc |
 | --- | --- | --- | --- | --- |
-| {Infra} | {Tên} | {Account/IAM nền, mạng/DNS/VPN, K8s cluster, CI/CD, registry, Terraform/Ansible, golden path Helm chart, hạ tầng stack monitoring, backup hạ tầng} | F-000 | {#team-infra} |
-| {SRE} | {Tên} | {Định nghĩa SLO; alert hạ tầng, dashboard tổng quan, Alertmanager; duyệt observability của các service; on-call; diễn tập DR} | F-011 | {#team-sre} |
+| {Infra} | {Tên} | {Account/IAM nền, mạng/DNS/VPN, K8s cluster, CI/CD, registry, Terraform/Ansible, golden path Helm chart, hạ tầng stack monitoring, alert và dashboard của thành phần hạ tầng, backup hạ tầng} | F-000 | {#team-infra} |
+| {SRE} | {Tên} | {Định nghĩa SLO; chuẩn alert, Alertmanager, dashboard tổng quan SLO, template alert của golden path; duyệt observability của mọi repo; quy trình on-call, incident; diễn tập DR} | F-011 | {#team-sre} |
 | {Security} | {Tên} | {Chính sách bảo mật, threat model, SIEM, WAF rule, quét lỗ hổng, pentest} | F-012 | {#team-security} |
 | {DBA} | {Tên} | {Cụm DB dùng chung, chuẩn schema, migration tooling, backup DB} | — | {#team-dba} |
 | {QA} | {Tên} | {Test E2E dùng chung, môi trường và dữ liệu test} | — | {#team-qa} |
@@ -26,13 +26,13 @@ Team chuyên trách chỉ có repo riêng khi code của họ có vòng đời �
 | Repo | Team giữ | Thành phần (HLD mục 4) | Team đóng góp: đường dẫn | Team duyệt: đường dẫn | Profile |
 | --- | --- | --- | --- | --- | --- |
 | `project-docs` | {Architect, PO, PM} | Tài liệu tổng thể | {Security: `docs/security/`, threat model trong HLD 7.1; SRE: SLO trong HLD 10; DBA: `docs/architecture/db-standards.md`} | {Architect: `docs/architecture/`; PO: `docs/product/`; PM: `docs/delivery/`} | — (chạy `/project.*`) |
-| `{infra}` | {Infra} | {L0–L6, CI/CD, registry, golden path chart, stack monitoring} | {SRE: `observability/`, `k8s/observability/`; Security: `policies/`; DBA: `terraform/live/*/30-database/`, `terraform/modules/rds-*/`} | {SRE: `observability/`, `k8s/observability/`; Security: `policies/`; DBA: đường dẫn DB} | `infra` + `observability` + `security-policy` |
+| `{infra}` | {Infra} | {L0–L6, CI/CD, registry, golden path chart, stack monitoring} | {SRE: `observability/alertmanager/`, `observability/dashboards/overview/`, `observability/golden-path/`; Security: `policies/`; DBA: `terraform/live/*/30-database/`, `terraform/modules/rds-*/`} | {SRE: `observability/`, `k8s/observability/`; Security: `policies/`; DBA: đường dẫn DB} | `infra` + `observability` + `security-policy` |
 | `{auth-service}` | {Team Identity} | {auth-service} | {DBA: `migrations/`; SRE: `observability/`} | {DBA: `migrations/`; SRE: `observability/`} | `service` |
 | `{order-service}` | {Team Order} | {order-service} | {như trên} | {như trên} | `service` |
 | `{payment-service}` | {Team Payment} | {payment-service} | {như trên} | {như trên} | `service` |
 | `{e2e-tests}` | {QA} | {Bộ test E2E, kịch bản load test} | — | {SRE: `load/` (ngưỡng)} | `test` |
 
-Team giữ repo có thể sửa mọi đường dẫn; team đóng góp chỉ sửa đường dẫn ghi ở cột của mình. Ở repo service, team giữ repo viết `migrations/` và `observability/`, DBA và SRE duyệt; DBA, SRE chỉ đóng góp khi cần (ví dụ sửa alert theo chuẩn mới).
+Team giữ repo có thể sửa mọi đường dẫn; team đóng góp chỉ sửa đường dẫn ghi ở cột của mình. Nguyên tắc chung: **team sở hữu thành phần viết alert, dashboard, runbook của thành phần đó; SRE duyệt.** Ở repo service, team giữ repo viết `migrations/` và `observability/`, DBA và SRE duyệt. Ở repo infra, Infra viết alert của thành phần hạ tầng; SRE chỉ viết phần dùng chung (Alertmanager, dashboard tổng quan, template của golden path).
 
 ## Ranh giới trách nhiệm việc xuyên suốt
 
@@ -45,11 +45,15 @@ Cột "Nơi làm" có một trong ba dạng: `repo:đường-dẫn` (code, có t
 | Dựng stack monitoring (Prometheus, Loki, Tempo, Grafana, Alertmanager, agent) | {Infra} | {SRE} | `{infra}:k8s/observability/` |
 | Định nghĩa SLO, error budget | {SRE} cùng team sở hữu service | {Architect} | `project-docs:docs/architecture/hld.md` mục 10 |
 | Recording rule, alert, dashboard, runbook của từng service | {Team sở hữu service} | {SRE} | `<repo service>:observability/` |
-| Alert hạ tầng, dashboard tổng quan, Alertmanager, alert mặc định của golden path | {SRE} | {Infra} | `{infra}:observability/` |
+| Alert, dashboard, runbook của thành phần hạ tầng (node, cluster, DB, queue, ingress) | {Infra} | {SRE} | `{infra}:observability/alerts/`, `observability/dashboards/infra/`, `observability/runbooks/` |
+| Chuẩn alert, route Alertmanager, dashboard tổng quan SLO, template alert của golden path | {SRE} | {Infra} | `{infra}:observability/alertmanager/`, `observability/dashboards/overview/`, `observability/golden-path/` |
 | Instrument code (metrics, log, trace, health check) | {Mỗi team dev} | {SRE} | `<repo service>:src/` |
 | On-call | {SRE, team sở hữu service} | {Engineering Manager} | hoạt động |
 | Chính sách IAM, firewall, threat model | {Security} | {Infra, Architect} | `project-docs:docs/security/` |
 | Policy as code (OPA, Kyverno) | {Security} | {Infra} | `{infra}:policies/` |
+| Yêu cầu guardrail cấp organization (SCP, vùng được dùng, dịch vụ bị cấm) | {Security} | {Infra} | `project-docs:docs/security/` |
+| Hiện thực guardrail cấp organization (SCP, baseline GuardDuty, Config, CloudTrail) | {Infra} | {Security} | `{infra}:terraform/live/global/` |
+| Phân loại finding (GuardDuty, Security Hub, quét lỗ hổng), dẫn dắt xử lý sự cố bảo mật | {Security} | {Infra, team sở hữu service} | hoạt động |
 | Hiện thực IAM, security group, KMS, secret manager | {Infra} | {Security} | `{infra}:terraform/` |
 | Hardening OS theo CIS | {Infra} | {Security} | `{infra}:ansible/` |
 | Pentest, duyệt kết quả quét lỗ hổng | {Security} | {Architect} | hoạt động |

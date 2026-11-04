@@ -47,7 +47,8 @@ Dùng **bảng "Team thực hiện" trong HLD** và **`team-map.md`** trước. 
 | Deployment/Infra | K8s cluster, VM, node pool (L3) | Infra | Foundation |
 | Deployment/Infra | CI/CD pipeline, registry | Infra | Foundation |
 | Deployment/Infra | Golden path: Helm chart chuẩn, ingress, cert-manager, External Secrets (L6) | Infra (+ SRE review) | Golden path |
-| Security | Chính sách bảo mật, threat model, SIEM, WAF rule, quét lỗ hổng, pentest | Security | Security baseline |
+| Security | Chính sách bảo mật, threat model, SIEM, WAF rule, quét lỗ hổng, pentest, yêu cầu guardrail organization (SCP) | Security | Security baseline |
+| Security | Hiện thực SCP, baseline GuardDuty, Config, CloudTrail (L0) | Infra (+ Security duyệt) | Foundation |
 | Security | Hiện thực IAM, security group, KMS, secret manager (L2) | Infra | Foundation hoặc Security infra |
 | Security | Hardening OS theo CIS, `auditd` (L4, Ansible) | Infra (+ Security duyệt) | OS hardening |
 | Security | AuthN/AuthZ trong ứng dụng | Team sở hữu service auth | Business hoặc Foundation |
@@ -55,7 +56,8 @@ Dùng **bảng "Team thực hiện" trong HLD** và **`team-map.md`** trước. 
 | Availability/DR | Backup và replication DB | DBA (+ Infra) | Backup & DR (tách nếu khác team) |
 | Scalability | Auto-scaling, cache dùng chung, CDN | Infra | Scaling |
 | Monitoring | Dựng stack Prometheus/Loki/Tempo/Grafana/Alertmanager, agent (L5) | Infra | Observability stack |
-| Monitoring | Định nghĩa SLO; alert hạ tầng, dashboard tổng quan, Alertmanager, alert mặc định của golden path; on-call | SRE | SLO & alerting |
+| Monitoring | Định nghĩa SLO; chuẩn alert, Alertmanager, dashboard tổng quan SLO, template alert của golden path; on-call | SRE | SLO & alerting |
+| Monitoring | Alert, dashboard, runbook của thành phần hạ tầng | Infra (+ SRE duyệt), trong enabler tạo ra thành phần đó | Không tạo enabler riêng |
 | Monitoring | Recording rule, alert, dashboard, runbook của từng service | Team sở hữu service (+ SRE duyệt), trong feature business của service | Không tạo enabler riêng |
 | Monitoring | Instrument code (metrics, log, trace, health check) | Mỗi team dev, trong feature business của mình | Không tạo enabler riêng |
 | Dữ liệu | Cụm DB dùng chung, chuẩn schema, migration tooling | DBA | Data platform |
