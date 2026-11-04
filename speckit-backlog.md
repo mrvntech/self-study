@@ -3,10 +3,11 @@
 > Ghi chú tự học · Cập nhật: 2026-11-02
 > Liên quan: [discovery-phase0-guideline.md](discovery-phase0-guideline.md) · [speckit-big-picture.md](speckit-big-picture.md) · [speckit-vs-sdlc.md](speckit-vs-sdlc.md)
 > Hiện thực: [speckit-docs-skeleton/](speckit-docs-skeleton/) (lệnh `/project.discovery`, `/project.hld`, `/project.teammap`, `/project.breakdown`, `/project.backlog`, script `scripts/backlog-sync.sh`)
+> Tên lệnh Spec Kit theo bản 1.2.6 cài cho Claude Code dưới dạng skill (`/speckit-specify`). Bản cũ dùng dấu chấm (`/speckit.specify`).
 
 ## Vấn đề
 
-Spec Kit bắt đầu từ `/speckit.specify` cho **một tính năng**. Nó không có bước nào để:
+Spec Kit bắt đầu từ `/speckit-specify` cho **một tính năng**. Nó không có bước nào để:
 
 1. **Tạo ra danh sách feature ban đầu** từ ý tưởng, mục tiêu và nhu cầu người dùng.
 2. Biến HLD thành **danh sách việc cho từng team** và **backlog** trên công cụ quản lý công việc.
@@ -15,7 +16,7 @@ Lệnh Spec Kit thực chất là file prompt Markdown, nên ta tự thêm lện
 
 ## Giai đoạn 0: tạo feature ban đầu
 
-Feature ban đầu được tạo ở **Giai đoạn 0 (Discovery)**, trước mọi lệnh `/speckit.*`. Con người dẫn dắt qua workshop; AI hỗ trợ soạn nháp. Hướng dẫn chi tiết từng bước (đầu vào, định dạng, ai tham gia, đầu ra, checklist): [discovery-phase0-guideline.md](discovery-phase0-guideline.md).
+Feature ban đầu được tạo ở **Giai đoạn 0 (Discovery)**, trước mọi lệnh `/speckit-*`. Con người dẫn dắt qua workshop; AI hỗ trợ soạn nháp. Hướng dẫn chi tiết từng bước (đầu vào, định dạng, ai tham gia, đầu ra, checklist): [discovery-phase0-guideline.md](discovery-phase0-guideline.md).
 
 Feature được hình thành qua **hai lượt**:
 
@@ -68,7 +69,7 @@ v1.1        Lọc, gợi ý         Mã giảm giá        Ví điện tử     
 | Trong story map | Trở thành |
 | --- | --- |
 | Cột hoạt động | Một hoặc vài **feature** trong `feature-map.md` |
-| Story trong cột | **User story** trong `spec.md` khi chạy `/speckit.specify` |
+| Story trong cột | **User story** trong `spec.md` khi chạy `/speckit-specify` |
 | Lát cắt ngang | **Mốc release** trong `release-plan.md` |
 
 ### Từ lượt 1 sang lượt 2
@@ -88,7 +89,7 @@ v1.1        Lọc, gợi ý         Mã giảm giá        Ví điện tử     
 
 | Làm sai | Hậu quả |
 | --- | --- |
-| Chạy `/speckit.specify` ngay khi có ý tưởng | Feature không gắn mục tiêu, ranh giới lộn xộn, trùng lặp giữa các spec |
+| Chạy `/speckit-specify` ngay khi có ý tưởng | Feature không gắn mục tiêu, ranh giới lộn xộn, trùng lặp giữa các spec |
 | Chia feature theo tầng kỹ thuật ("Backend", "Database") | Không feature nào tự giao được giá trị; team phải chờ nhau |
 | Chia team trước khi có HLD | Ranh giới team lệch ranh giới hệ thống |
 | Bỏ qua enabler | Foundation, monitoring, security làm muộn, chặn các team dev |
@@ -105,7 +106,8 @@ flowchart TB
     D --> E["/project.backlog<br/>AI sinh backlog.json"]
     E --> F["scripts/backlog-sync.sh<br/>chạy thử → --apply<br/>(người dùng tự chạy)"]
     F --> G[GitHub Issues: feature, milestone,<br/>nhãn team, blocked by]
-    G --> H["Từng team: /speckit.specify → plan → tasks"]
+    G --> K["Architect, Tech Lead (một lần):<br/>specify init, /speckit-constitution"]
+    K --> H["Từng team: /speckit-specify → plan → tasks"]
     H --> I["/project.backlog --with-tasks<br/>→ backlog-sync.sh"]
     I --> J[Task thành sub-issue của feature<br/>= sprint backlog]
 ```
@@ -122,17 +124,18 @@ flowchart TB
 | | B8 HLD, ADR, API catalog | `/project.hld` (theo mục: `/project.hld components`, `security`, `adr`, `trace`…) | `hld.md`, `adr/`, `api-catalog.md` (nháp) |
 | | B9 Team map | `/project.teammap` | `team-map.md` (nháp) |
 | | B9 Feature map lượt 2 | `/project.breakdown` | Đề xuất feature theo team, enabler, contract |
+| | B9 Cài Spec Kit | `specify init --here --integration claude`, chèn `.specify/templates-additions/` vào template | `.specify/templates/`, `.claude/skills/speckit-*` |
+| | B9 Constitution | `/speckit-constitution` (Architect, Tech Lead) | `.specify/memory/constitution.md` |
 | | B10 Cổng Ready for Spec Kit | `/project.discovery gaps` | Danh sách thiếu sót còn lại |
 | **1. Product backlog** | Sinh dữ liệu | `/project.backlog` | `docs/delivery/backlog.json` |
 | | Đẩy lên GitHub | `scripts/backlog-sync.sh` → `--apply` | Issue, milestone, nhãn |
-| **2. Từng feature** (mỗi team) | Nguyên tắc dự án (một lần) | `/speckit.constitution` | `memory/constitution.md` |
-| | Đặc tả | `/speckit.specify` → `/speckit.clarify` | `specs/xxx/spec.md` |
-| | Thiết kế | `/speckit.plan` | `plan.md`, `data-model.md`, `contracts/` |
+| **2. Từng feature** (mỗi team) | Đặc tả | `/speckit-specify` → `/speckit-clarify` | `specs/xxx/spec.md` |
+| | Thiết kế | `/speckit-plan` | `plan.md`, `data-model.md`, `contracts/` |
 | | Kiểm tra chéo dự án | `/project.review` | Báo cáo lệch PRD, NFR, HLD, glossary |
-| | Chia task | `/speckit.tasks` → `/speckit.analyze` | `tasks.md` |
+| | Chia task | `/speckit-tasks` → `/speckit-analyze` | `tasks.md` |
 | **3. Sprint backlog** | Điều phối giữa team | `/project.plan` | Nháp `dependencies.md`, `release-plan.md` |
 | | Đẩy task lên GitHub | `/project.backlog --with-tasks` → `scripts/backlog-sync.sh --apply` | Sub-issue của feature |
-| **4. Hiện thực** | Code theo task | `/speckit.implement` | Code, test |
+| **4. Hiện thực** | Code theo task | `/speckit-implement` | Code, test |
 
 ```bash
 # Giai đoạn 0
@@ -146,6 +149,8 @@ flowchart TB
 /project.teammap                   # sau khi HLD được duyệt
 /project.breakdown                 # sau khi HLD và team-map được duyệt
 /project.breakdown chỉ mốc M1      # giới hạn phạm vi
+specify init --here --integration claude   # một lần, rồi chèn templates-additions vào template
+/speckit-constitution              # một lần, sau khi HLD được duyệt
 
 # Giai đoạn 1
 /project.backlog
@@ -153,29 +158,46 @@ scripts/backlog-sync.sh            # chạy thử, xem lại kết quả
 scripts/backlog-sync.sh --apply    # ghi thật
 
 # Giai đoạn 2–3 (lặp cho từng feature)
-/speckit.specify F-002a Thanh toán – phía đơn hàng
-/speckit.clarify
-/speckit.plan
+/speckit-specify F-002a Thanh toán – phía đơn hàng
+/speckit-clarify
+/speckit-plan
 /project.review
-/speckit.tasks
-/speckit.analyze
+/speckit-tasks
+/speckit-analyze
 /project.plan
 /project.backlog --with-tasks
 scripts/backlog-sync.sh            # chạy thử
 scripts/backlog-sync.sh --apply
 
 # Giai đoạn 4
-/speckit.implement
+/speckit-implement
 ```
 
 Ví dụ chạy thật `/project.hld`, `/project.teammap`, `/project.breakdown` trên dự án mẫu: [speckit-docs-skeleton/examples/shopnow/](speckit-docs-skeleton/examples/shopnow/).
+
+## Lệnh Spec Kit nối với tầng dự án
+
+Lệnh Spec Kit chỉ biết tới một tính năng. Constitution và phần bổ sung template (`.specify/templates-additions/`) buộc chúng đọc tầng dự án và để lại dữ liệu cho `/project.plan`, `/project.backlog --with-tasks`.
+
+| Lệnh | Đọc từ tầng dự án | Phần bổ sung template | Để lại cho bước sau |
+| --- | --- | --- | --- |
+| `/speckit-constitution` | HLD, NFR, team-map đã duyệt | — | Gate cho mọi lệnh sau: plan có Constitution Check, analyze coi vi phạm constitution là CRITICAL |
+| `/speckit-specify` | Issue feature (mã F-xxx), PRD, feature map, NFR, glossary | Mục "Liên kết tổng thể": F-xxx, REQ, NFR, phụ thuộc | Truy vết REQ → F-xxx cho `/project.review` |
+| `/speckit-plan` | HLD, domain model, API catalog, ADR | Mục "Ảnh hưởng kiến trúc": entity, API, event mới; ADR cần thêm; cách đáp ứng NFR | Việc hạ tầng phát sinh, contract mới cho `/project.plan` |
+| `/speckit-tasks` | team-map, API catalog | Nhãn `[Team]`, `[Needs]`, `[Provides]`; phase "Đồng bộ tài liệu tổng thể" | Sub-issue cho `/project.backlog --with-tasks`; phụ thuộc giữa team cho `/project.plan` |
+| `/speckit-analyze` | Constitution | — | Báo lệch giữa spec, plan, tasks trong một tính năng (lệch giữa các tính năng do `/project.review` lo) |
+| `/speckit-implement` | `dependencies.md` (qua constitution: không làm task có `Needs` chưa `Contract approved`) | — | Code, test; cập nhật tài liệu tổng thể ở phase cuối |
+
+Không dùng `/speckit-taskstoissues`: lệnh này để AI tạo issue thẳng trên GitHub từ `tasks.md` (trái constitution mục III), trùng việc với `/project.backlog --with-tasks` + `backlog-sync.sh` nhưng không có bước chạy thử, không gắn sub-issue vào feature, không gắn nhãn team. Nó nhận diện issue đã có theo mã task (`T001`) trên toàn repo; mã này đánh lại từ đầu ở mỗi tính năng, nên ở dự án nhiều tính năng nó bỏ sót task của tính năng sau.
+
+Constitution chỉ chứa quy trình và nguyên tắc không phụ thuộc công nghệ; quyết định kỹ thuật (IdP, quản lý secret, chuẩn log) nằm ở NFR, HLD, ADR và constitution trỏ tới. Ghi công nghệ vào constitution trước khi HLD chốt sẽ tạo hai nguồn sự thật, và `/speckit-plan` sẽ chặn plan làm đúng theo HLD.
 
 ## Hai cấp backlog
 
 | Cấp | Tạo khi nào | Nguồn | Ai quyết định |
 | --- | --- | --- | --- |
 | Product backlog (feature/epic) | Sau HLD, trước `specify` | `/project.breakdown` → `feature-map.md` | PO ưu tiên, Architect duyệt cách chia |
-| Sprint backlog (task) | Sau `/speckit.tasks` của từng feature | `specs/xxx/tasks.md` | Team tự nhận và ước lượng |
+| Sprint backlog (task) | Sau `/speckit-tasks` của từng feature | `specs/xxx/tasks.md` | Team tự nhận và ước lượng |
 
 ## `/project.breakdown`: chia việc từ HLD
 
@@ -237,7 +259,7 @@ Ví dụ kết quả:
 
 Ví dụ đầy đủ một báo cáo của lệnh (dự án mẫu ShopNow): [speckit-docs-skeleton/examples/shopnow-breakdown.example.md](speckit-docs-skeleton/examples/shopnow-breakdown.example.md).
 
-**Việc hạ tầng phát sinh sau** (team cần DB, queue mới khi `/speckit.plan`): ghi trong mục "Ảnh hưởng kiến trúc" của `plan.md`, task có nhãn `[Needs: infra/…]`; `/project.plan` cảnh báo khi chưa có `Provides`; Delivery Manager tạo feature mới cho Infra.
+**Việc hạ tầng phát sinh sau** (team cần DB, queue mới khi `/speckit-plan`): ghi trong mục "Ảnh hưởng kiến trúc" của `plan.md`, task có nhãn `[Needs: infra/…]`; `/project.plan` cảnh báo khi chưa có `Provides`; Delivery Manager tạo feature mới cho Infra.
 
 ## `/project.backlog` và `backlog-sync.sh`: đẩy backlog lên GitHub
 
